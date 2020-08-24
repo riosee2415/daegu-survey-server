@@ -1,0 +1,13 @@
+type User {
+  id: ID! @id
+  email: String! @unique
+  username: String! @unique
+  loginSecret: String! @default(value: "")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type AcceptRecord {
+  id: ID! @id
+  date : String!
+}

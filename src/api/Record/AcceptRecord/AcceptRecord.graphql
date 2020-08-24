@@ -1,0 +1,6 @@
+type Query {
+  getTodayRecord(date: String!): Int!
+  getMonthRecord(date: String!): Int!
+  getYearRecord(date: String!): Int!
+  getAllMonthRecord(date: String!): [Int!]!
+}

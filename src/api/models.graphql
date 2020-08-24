@@ -1,0 +1,13 @@
+type User {
+  id: ID!
+  email: String!
+  username: String!
+  loginSecret: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type AcceptRecord {
+  id: ID!
+  date: String!
+}
