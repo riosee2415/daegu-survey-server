@@ -1,8 +1,9 @@
 type User {
   id: ID! @id
-  email: String! @unique
+  round : Int!
   username: String! @unique
-  loginSecret: String! @default(value: "")
+  mobile : Int! @unique
+  isExpert : Boolean! @default(value : false)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
@@ -10,4 +11,14 @@ type User {
 type AcceptRecord {
   id: ID! @id
   date : String!
+}
+
+
+type Question {
+  id: ID! @id
+  round : Int!
+  quetionTitle: String!
+  sort: Int!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }

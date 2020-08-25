@@ -17,6 +17,7 @@ export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
   acceptRecord: (where?: AcceptRecordWhereInput) => Promise<boolean>;
+  question: (where?: QuestionWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -60,6 +61,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => AcceptRecordConnectionPromise;
+  question: (where: QuestionWhereUniqueInput) => QuestionNullablePromise;
+  questions: (args?: {
+    where?: QuestionWhereInput;
+    orderBy?: QuestionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Question>;
+  questionsConnection: (args?: {
+    where?: QuestionWhereInput;
+    orderBy?: QuestionOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => QuestionConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -105,6 +125,22 @@ export interface Prisma {
   deleteManyAcceptRecords: (
     where?: AcceptRecordWhereInput
   ) => BatchPayloadPromise;
+  createQuestion: (data: QuestionCreateInput) => QuestionPromise;
+  updateQuestion: (args: {
+    data: QuestionUpdateInput;
+    where: QuestionWhereUniqueInput;
+  }) => QuestionPromise;
+  updateManyQuestions: (args: {
+    data: QuestionUpdateManyMutationInput;
+    where?: QuestionWhereInput;
+  }) => BatchPayloadPromise;
+  upsertQuestion: (args: {
+    where: QuestionWhereUniqueInput;
+    create: QuestionCreateInput;
+    update: QuestionUpdateInput;
+  }) => QuestionPromise;
+  deleteQuestion: (where: QuestionWhereUniqueInput) => QuestionPromise;
+  deleteManyQuestions: (where?: QuestionWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -133,6 +169,9 @@ export interface Subscription {
   acceptRecord: (
     where?: AcceptRecordSubscriptionWhereInput
   ) => AcceptRecordSubscriptionPayloadSubscription;
+  question: (
+    where?: QuestionSubscriptionWhereInput
+  ) => QuestionSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -152,15 +191,31 @@ export type AcceptRecordOrderByInput =
   | "date_ASC"
   | "date_DESC";
 
+export type QuestionOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "round_ASC"
+  | "round_DESC"
+  | "quetionTitle_ASC"
+  | "quetionTitle_DESC"
+  | "sort_ASC"
+  | "sort_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
 export type UserOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "email_ASC"
-  | "email_DESC"
+  | "round_ASC"
+  | "round_DESC"
   | "username_ASC"
   | "username_DESC"
-  | "loginSecret_ASC"
-  | "loginSecret_DESC"
+  | "mobile_ASC"
+  | "mobile_DESC"
+  | "isExpert_ASC"
+  | "isExpert_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -206,10 +261,80 @@ export interface AcceptRecordWhereInput {
   NOT?: Maybe<AcceptRecordWhereInput[] | AcceptRecordWhereInput>;
 }
 
+export type QuestionWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface QuestionWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  round?: Maybe<Int>;
+  round_not?: Maybe<Int>;
+  round_in?: Maybe<Int[] | Int>;
+  round_not_in?: Maybe<Int[] | Int>;
+  round_lt?: Maybe<Int>;
+  round_lte?: Maybe<Int>;
+  round_gt?: Maybe<Int>;
+  round_gte?: Maybe<Int>;
+  quetionTitle?: Maybe<String>;
+  quetionTitle_not?: Maybe<String>;
+  quetionTitle_in?: Maybe<String[] | String>;
+  quetionTitle_not_in?: Maybe<String[] | String>;
+  quetionTitle_lt?: Maybe<String>;
+  quetionTitle_lte?: Maybe<String>;
+  quetionTitle_gt?: Maybe<String>;
+  quetionTitle_gte?: Maybe<String>;
+  quetionTitle_contains?: Maybe<String>;
+  quetionTitle_not_contains?: Maybe<String>;
+  quetionTitle_starts_with?: Maybe<String>;
+  quetionTitle_not_starts_with?: Maybe<String>;
+  quetionTitle_ends_with?: Maybe<String>;
+  quetionTitle_not_ends_with?: Maybe<String>;
+  sort?: Maybe<Int>;
+  sort_not?: Maybe<Int>;
+  sort_in?: Maybe<Int[] | Int>;
+  sort_not_in?: Maybe<Int[] | Int>;
+  sort_lt?: Maybe<Int>;
+  sort_lte?: Maybe<Int>;
+  sort_gt?: Maybe<Int>;
+  sort_gte?: Maybe<Int>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<QuestionWhereInput[] | QuestionWhereInput>;
+  OR?: Maybe<QuestionWhereInput[] | QuestionWhereInput>;
+  NOT?: Maybe<QuestionWhereInput[] | QuestionWhereInput>;
+}
+
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
-  email?: Maybe<String>;
   username?: Maybe<String>;
+  mobile?: Maybe<Int>;
 }>;
 
 export interface UserWhereInput {
@@ -227,20 +352,14 @@ export interface UserWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  email?: Maybe<String>;
-  email_not?: Maybe<String>;
-  email_in?: Maybe<String[] | String>;
-  email_not_in?: Maybe<String[] | String>;
-  email_lt?: Maybe<String>;
-  email_lte?: Maybe<String>;
-  email_gt?: Maybe<String>;
-  email_gte?: Maybe<String>;
-  email_contains?: Maybe<String>;
-  email_not_contains?: Maybe<String>;
-  email_starts_with?: Maybe<String>;
-  email_not_starts_with?: Maybe<String>;
-  email_ends_with?: Maybe<String>;
-  email_not_ends_with?: Maybe<String>;
+  round?: Maybe<Int>;
+  round_not?: Maybe<Int>;
+  round_in?: Maybe<Int[] | Int>;
+  round_not_in?: Maybe<Int[] | Int>;
+  round_lt?: Maybe<Int>;
+  round_lte?: Maybe<Int>;
+  round_gt?: Maybe<Int>;
+  round_gte?: Maybe<Int>;
   username?: Maybe<String>;
   username_not?: Maybe<String>;
   username_in?: Maybe<String[] | String>;
@@ -255,20 +374,16 @@ export interface UserWhereInput {
   username_not_starts_with?: Maybe<String>;
   username_ends_with?: Maybe<String>;
   username_not_ends_with?: Maybe<String>;
-  loginSecret?: Maybe<String>;
-  loginSecret_not?: Maybe<String>;
-  loginSecret_in?: Maybe<String[] | String>;
-  loginSecret_not_in?: Maybe<String[] | String>;
-  loginSecret_lt?: Maybe<String>;
-  loginSecret_lte?: Maybe<String>;
-  loginSecret_gt?: Maybe<String>;
-  loginSecret_gte?: Maybe<String>;
-  loginSecret_contains?: Maybe<String>;
-  loginSecret_not_contains?: Maybe<String>;
-  loginSecret_starts_with?: Maybe<String>;
-  loginSecret_not_starts_with?: Maybe<String>;
-  loginSecret_ends_with?: Maybe<String>;
-  loginSecret_not_ends_with?: Maybe<String>;
+  mobile?: Maybe<Int>;
+  mobile_not?: Maybe<Int>;
+  mobile_in?: Maybe<Int[] | Int>;
+  mobile_not_in?: Maybe<Int[] | Int>;
+  mobile_lt?: Maybe<Int>;
+  mobile_lte?: Maybe<Int>;
+  mobile_gt?: Maybe<Int>;
+  mobile_gte?: Maybe<Int>;
+  isExpert?: Maybe<Boolean>;
+  isExpert_not?: Maybe<Boolean>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -303,23 +418,45 @@ export interface AcceptRecordUpdateManyMutationInput {
   date?: Maybe<String>;
 }
 
+export interface QuestionCreateInput {
+  id?: Maybe<ID_Input>;
+  round: Int;
+  quetionTitle: String;
+  sort: Int;
+}
+
+export interface QuestionUpdateInput {
+  round?: Maybe<Int>;
+  quetionTitle?: Maybe<String>;
+  sort?: Maybe<Int>;
+}
+
+export interface QuestionUpdateManyMutationInput {
+  round?: Maybe<Int>;
+  quetionTitle?: Maybe<String>;
+  sort?: Maybe<Int>;
+}
+
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
-  email: String;
+  round: Int;
   username: String;
-  loginSecret?: Maybe<String>;
+  mobile: Int;
+  isExpert?: Maybe<Boolean>;
 }
 
 export interface UserUpdateInput {
-  email?: Maybe<String>;
+  round?: Maybe<Int>;
   username?: Maybe<String>;
-  loginSecret?: Maybe<String>;
+  mobile?: Maybe<Int>;
+  isExpert?: Maybe<Boolean>;
 }
 
 export interface UserUpdateManyMutationInput {
-  email?: Maybe<String>;
+  round?: Maybe<Int>;
   username?: Maybe<String>;
-  loginSecret?: Maybe<String>;
+  mobile?: Maybe<Int>;
+  isExpert?: Maybe<Boolean>;
 }
 
 export interface AcceptRecordSubscriptionWhereInput {
@@ -336,6 +473,21 @@ export interface AcceptRecordSubscriptionWhereInput {
   >;
   NOT?: Maybe<
     AcceptRecordSubscriptionWhereInput[] | AcceptRecordSubscriptionWhereInput
+  >;
+}
+
+export interface QuestionSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<QuestionWhereInput>;
+  AND?: Maybe<
+    QuestionSubscriptionWhereInput[] | QuestionSubscriptionWhereInput
+  >;
+  OR?: Maybe<QuestionSubscriptionWhereInput[] | QuestionSubscriptionWhereInput>;
+  NOT?: Maybe<
+    QuestionSubscriptionWhereInput[] | QuestionSubscriptionWhereInput
   >;
 }
 
@@ -459,20 +611,118 @@ export interface AggregateAcceptRecordSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface Question {
+  id: ID_Output;
+  round: Int;
+  quetionTitle: String;
+  sort: Int;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface QuestionPromise extends Promise<Question>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  round: () => Promise<Int>;
+  quetionTitle: () => Promise<String>;
+  sort: () => Promise<Int>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface QuestionSubscription
+  extends Promise<AsyncIterator<Question>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  round: () => Promise<AsyncIterator<Int>>;
+  quetionTitle: () => Promise<AsyncIterator<String>>;
+  sort: () => Promise<AsyncIterator<Int>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface QuestionNullablePromise
+  extends Promise<Question | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  round: () => Promise<Int>;
+  quetionTitle: () => Promise<String>;
+  sort: () => Promise<Int>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface QuestionConnection {
+  pageInfo: PageInfo;
+  edges: QuestionEdge[];
+}
+
+export interface QuestionConnectionPromise
+  extends Promise<QuestionConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<QuestionEdge>>() => T;
+  aggregate: <T = AggregateQuestionPromise>() => T;
+}
+
+export interface QuestionConnectionSubscription
+  extends Promise<AsyncIterator<QuestionConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<QuestionEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateQuestionSubscription>() => T;
+}
+
+export interface QuestionEdge {
+  node: Question;
+  cursor: String;
+}
+
+export interface QuestionEdgePromise
+  extends Promise<QuestionEdge>,
+    Fragmentable {
+  node: <T = QuestionPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface QuestionEdgeSubscription
+  extends Promise<AsyncIterator<QuestionEdge>>,
+    Fragmentable {
+  node: <T = QuestionSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateQuestion {
+  count: Int;
+}
+
+export interface AggregateQuestionPromise
+  extends Promise<AggregateQuestion>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateQuestionSubscription
+  extends Promise<AsyncIterator<AggregateQuestion>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface User {
   id: ID_Output;
-  email: String;
+  round: Int;
   username: String;
-  loginSecret: String;
+  mobile: Int;
+  isExpert: Boolean;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
-  email: () => Promise<String>;
+  round: () => Promise<Int>;
   username: () => Promise<String>;
-  loginSecret: () => Promise<String>;
+  mobile: () => Promise<Int>;
+  isExpert: () => Promise<Boolean>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -481,9 +731,10 @@ export interface UserSubscription
   extends Promise<AsyncIterator<User>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  email: () => Promise<AsyncIterator<String>>;
+  round: () => Promise<AsyncIterator<Int>>;
   username: () => Promise<AsyncIterator<String>>;
-  loginSecret: () => Promise<AsyncIterator<String>>;
+  mobile: () => Promise<AsyncIterator<Int>>;
+  isExpert: () => Promise<AsyncIterator<Boolean>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -492,9 +743,10 @@ export interface UserNullablePromise
   extends Promise<User | null>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  email: () => Promise<String>;
+  round: () => Promise<Int>;
   username: () => Promise<String>;
-  loginSecret: () => Promise<String>;
+  mobile: () => Promise<Int>;
+  isExpert: () => Promise<Boolean>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -613,6 +865,62 @@ export interface AcceptRecordPreviousValuesSubscription
   date: () => Promise<AsyncIterator<String>>;
 }
 
+export interface QuestionSubscriptionPayload {
+  mutation: MutationType;
+  node: Question;
+  updatedFields: String[];
+  previousValues: QuestionPreviousValues;
+}
+
+export interface QuestionSubscriptionPayloadPromise
+  extends Promise<QuestionSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = QuestionPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = QuestionPreviousValuesPromise>() => T;
+}
+
+export interface QuestionSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<QuestionSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = QuestionSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = QuestionPreviousValuesSubscription>() => T;
+}
+
+export interface QuestionPreviousValues {
+  id: ID_Output;
+  round: Int;
+  quetionTitle: String;
+  sort: Int;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface QuestionPreviousValuesPromise
+  extends Promise<QuestionPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  round: () => Promise<Int>;
+  quetionTitle: () => Promise<String>;
+  sort: () => Promise<Int>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface QuestionPreviousValuesSubscription
+  extends Promise<AsyncIterator<QuestionPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  round: () => Promise<AsyncIterator<Int>>;
+  quetionTitle: () => Promise<AsyncIterator<String>>;
+  sort: () => Promise<AsyncIterator<Int>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
 export interface UserSubscriptionPayload {
   mutation: MutationType;
   node: User;
@@ -640,9 +948,10 @@ export interface UserSubscriptionPayloadSubscription
 
 export interface UserPreviousValues {
   id: ID_Output;
-  email: String;
+  round: Int;
   username: String;
-  loginSecret: String;
+  mobile: Int;
+  isExpert: Boolean;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -651,9 +960,10 @@ export interface UserPreviousValuesPromise
   extends Promise<UserPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  email: () => Promise<String>;
+  round: () => Promise<Int>;
   username: () => Promise<String>;
-  loginSecret: () => Promise<String>;
+  mobile: () => Promise<Int>;
+  isExpert: () => Promise<Boolean>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -662,9 +972,10 @@ export interface UserPreviousValuesSubscription
   extends Promise<AsyncIterator<UserPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  email: () => Promise<AsyncIterator<String>>;
+  round: () => Promise<AsyncIterator<Int>>;
   username: () => Promise<AsyncIterator<String>>;
-  loginSecret: () => Promise<AsyncIterator<String>>;
+  mobile: () => Promise<AsyncIterator<Int>>;
+  isExpert: () => Promise<AsyncIterator<Boolean>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -713,6 +1024,10 @@ export const models: Model[] = [
   },
   {
     name: "AcceptRecord",
+    embedded: false
+  },
+  {
+    name: "Question",
     embedded: false
   }
 ];

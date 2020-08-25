@@ -11,11 +11,15 @@ var models = [
   {
     name: "AcceptRecord",
     embedded: false
+  },
+  {
+    name: "Question",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({
   typeDefs,
   models,
-  endpoint: `https://us1.prisma.sh/daegu-survey/daegu-survey-server/dev`
+  endpoint: `${process.env["PRISMA_ENDPOINT"]}`
 });
 exports.prisma = new exports.Prisma();

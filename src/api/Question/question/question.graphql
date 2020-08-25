@@ -1,0 +1,8 @@
+type Query {
+  getQuestion(round: Int!): [Question!]!
+}
+
+type Mutation {
+  deleteQuestion(id: String!): Boolean!
+  modifyQuestionSort(id: String!, sort: Int!): Boolean!
+}

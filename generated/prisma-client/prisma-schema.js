@@ -104,6 +104,10 @@ type AggregateAcceptRecord {
   count: Int!
 }
 
+type AggregateQuestion {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -123,6 +127,12 @@ type Mutation {
   upsertAcceptRecord(where: AcceptRecordWhereUniqueInput!, create: AcceptRecordCreateInput!, update: AcceptRecordUpdateInput!): AcceptRecord!
   deleteAcceptRecord(where: AcceptRecordWhereUniqueInput!): AcceptRecord
   deleteManyAcceptRecords(where: AcceptRecordWhereInput): BatchPayload!
+  createQuestion(data: QuestionCreateInput!): Question!
+  updateQuestion(data: QuestionUpdateInput!, where: QuestionWhereUniqueInput!): Question
+  updateManyQuestions(data: QuestionUpdateManyMutationInput!, where: QuestionWhereInput): BatchPayload!
+  upsertQuestion(where: QuestionWhereUniqueInput!, create: QuestionCreateInput!, update: QuestionUpdateInput!): Question!
+  deleteQuestion(where: QuestionWhereUniqueInput!): Question
+  deleteManyQuestions(where: QuestionWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -152,22 +162,178 @@ type Query {
   acceptRecord(where: AcceptRecordWhereUniqueInput!): AcceptRecord
   acceptRecords(where: AcceptRecordWhereInput, orderBy: AcceptRecordOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AcceptRecord]!
   acceptRecordsConnection(where: AcceptRecordWhereInput, orderBy: AcceptRecordOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AcceptRecordConnection!
+  question(where: QuestionWhereUniqueInput!): Question
+  questions(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Question]!
+  questionsConnection(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): QuestionConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   node(id: ID!): Node
 }
 
+type Question {
+  id: ID!
+  round: Int!
+  quetionTitle: String!
+  sort: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type QuestionConnection {
+  pageInfo: PageInfo!
+  edges: [QuestionEdge]!
+  aggregate: AggregateQuestion!
+}
+
+input QuestionCreateInput {
+  id: ID
+  round: Int!
+  quetionTitle: String!
+  sort: Int!
+}
+
+type QuestionEdge {
+  node: Question!
+  cursor: String!
+}
+
+enum QuestionOrderByInput {
+  id_ASC
+  id_DESC
+  round_ASC
+  round_DESC
+  quetionTitle_ASC
+  quetionTitle_DESC
+  sort_ASC
+  sort_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type QuestionPreviousValues {
+  id: ID!
+  round: Int!
+  quetionTitle: String!
+  sort: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type QuestionSubscriptionPayload {
+  mutation: MutationType!
+  node: Question
+  updatedFields: [String!]
+  previousValues: QuestionPreviousValues
+}
+
+input QuestionSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: QuestionWhereInput
+  AND: [QuestionSubscriptionWhereInput!]
+  OR: [QuestionSubscriptionWhereInput!]
+  NOT: [QuestionSubscriptionWhereInput!]
+}
+
+input QuestionUpdateInput {
+  round: Int
+  quetionTitle: String
+  sort: Int
+}
+
+input QuestionUpdateManyMutationInput {
+  round: Int
+  quetionTitle: String
+  sort: Int
+}
+
+input QuestionWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  round: Int
+  round_not: Int
+  round_in: [Int!]
+  round_not_in: [Int!]
+  round_lt: Int
+  round_lte: Int
+  round_gt: Int
+  round_gte: Int
+  quetionTitle: String
+  quetionTitle_not: String
+  quetionTitle_in: [String!]
+  quetionTitle_not_in: [String!]
+  quetionTitle_lt: String
+  quetionTitle_lte: String
+  quetionTitle_gt: String
+  quetionTitle_gte: String
+  quetionTitle_contains: String
+  quetionTitle_not_contains: String
+  quetionTitle_starts_with: String
+  quetionTitle_not_starts_with: String
+  quetionTitle_ends_with: String
+  quetionTitle_not_ends_with: String
+  sort: Int
+  sort_not: Int
+  sort_in: [Int!]
+  sort_not_in: [Int!]
+  sort_lt: Int
+  sort_lte: Int
+  sort_gt: Int
+  sort_gte: Int
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [QuestionWhereInput!]
+  OR: [QuestionWhereInput!]
+  NOT: [QuestionWhereInput!]
+}
+
+input QuestionWhereUniqueInput {
+  id: ID
+}
+
 type Subscription {
   acceptRecord(where: AcceptRecordSubscriptionWhereInput): AcceptRecordSubscriptionPayload
+  question(where: QuestionSubscriptionWhereInput): QuestionSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
 type User {
   id: ID!
-  email: String!
+  round: Int!
   username: String!
-  loginSecret: String!
+  mobile: Int!
+  isExpert: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -180,9 +346,10 @@ type UserConnection {
 
 input UserCreateInput {
   id: ID
-  email: String!
+  round: Int!
   username: String!
-  loginSecret: String
+  mobile: Int!
+  isExpert: Boolean
 }
 
 type UserEdge {
@@ -193,12 +360,14 @@ type UserEdge {
 enum UserOrderByInput {
   id_ASC
   id_DESC
-  email_ASC
-  email_DESC
+  round_ASC
+  round_DESC
   username_ASC
   username_DESC
-  loginSecret_ASC
-  loginSecret_DESC
+  mobile_ASC
+  mobile_DESC
+  isExpert_ASC
+  isExpert_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -207,9 +376,10 @@ enum UserOrderByInput {
 
 type UserPreviousValues {
   id: ID!
-  email: String!
+  round: Int!
   username: String!
-  loginSecret: String!
+  mobile: Int!
+  isExpert: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -233,15 +403,17 @@ input UserSubscriptionWhereInput {
 }
 
 input UserUpdateInput {
-  email: String
+  round: Int
   username: String
-  loginSecret: String
+  mobile: Int
+  isExpert: Boolean
 }
 
 input UserUpdateManyMutationInput {
-  email: String
+  round: Int
   username: String
-  loginSecret: String
+  mobile: Int
+  isExpert: Boolean
 }
 
 input UserWhereInput {
@@ -259,20 +431,14 @@ input UserWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
-  email: String
-  email_not: String
-  email_in: [String!]
-  email_not_in: [String!]
-  email_lt: String
-  email_lte: String
-  email_gt: String
-  email_gte: String
-  email_contains: String
-  email_not_contains: String
-  email_starts_with: String
-  email_not_starts_with: String
-  email_ends_with: String
-  email_not_ends_with: String
+  round: Int
+  round_not: Int
+  round_in: [Int!]
+  round_not_in: [Int!]
+  round_lt: Int
+  round_lte: Int
+  round_gt: Int
+  round_gte: Int
   username: String
   username_not: String
   username_in: [String!]
@@ -287,20 +453,16 @@ input UserWhereInput {
   username_not_starts_with: String
   username_ends_with: String
   username_not_ends_with: String
-  loginSecret: String
-  loginSecret_not: String
-  loginSecret_in: [String!]
-  loginSecret_not_in: [String!]
-  loginSecret_lt: String
-  loginSecret_lte: String
-  loginSecret_gt: String
-  loginSecret_gte: String
-  loginSecret_contains: String
-  loginSecret_not_contains: String
-  loginSecret_starts_with: String
-  loginSecret_not_starts_with: String
-  loginSecret_ends_with: String
-  loginSecret_not_ends_with: String
+  mobile: Int
+  mobile_not: Int
+  mobile_in: [Int!]
+  mobile_not_in: [Int!]
+  mobile_lt: Int
+  mobile_lte: Int
+  mobile_gt: Int
+  mobile_gte: Int
+  isExpert: Boolean
+  isExpert_not: Boolean
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -324,8 +486,8 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
-  email: String
   username: String
+  mobile: Int
 }
 `
       }
