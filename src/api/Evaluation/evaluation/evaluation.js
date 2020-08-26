@@ -12,10 +12,37 @@ export default {
               id: id,
             },
           },
+          orderBy: "createdAt_ASC",
         });
         return result;
       } catch (e) {
         return [];
+      }
+    },
+  },
+
+  Mutation: {
+    createEvaluation: async (_, args) => {
+      const { userKey, questionKey, score, description } = args;
+
+      try {
+        const result = await prisma.createEvaluation({
+          user: {
+            connect: { id: userKey },
+          },
+          question: {
+            connect: { id: questionKey },
+          },
+          score,
+          description,
+        });
+
+        console.log(result);
+
+        return true;
+      } catch (e) {
+        console.log(e);
+        return false;
       }
     },
   },

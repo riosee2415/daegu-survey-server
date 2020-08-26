@@ -1,3 +1,12 @@
 type Query {
   getSelectEvaluation(id: String!): [Evaluation!]!
 }
+
+type Mutation {
+  createEvaluation(
+    userKey: String
+    questionKey: String!
+    score: Int!
+    description: String!
+  ): Boolean!
+}
