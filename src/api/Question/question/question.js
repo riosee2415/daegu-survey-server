@@ -10,6 +10,7 @@ export default {
           where: {
             round,
           },
+          orderBy: "sort_ASC",
         });
 
         return result;
@@ -45,6 +46,23 @@ export default {
           data: {
             sort: sort,
           },
+        });
+
+        return true;
+      } catch (e) {
+        console.log(e);
+        return false;
+      }
+    },
+
+    createQuestion: async (_, args) => {
+      const { round, quetionTitle, sort } = args;
+
+      try {
+        const result = await prisma.createQuestion({
+          round,
+          quetionTitle,
+          sort,
         });
 
         return true;

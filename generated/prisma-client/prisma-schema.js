@@ -104,6 +104,10 @@ type AggregateAcceptRecord {
   count: Int!
 }
 
+type AggregateEvaluation {
+  count: Int!
+}
+
 type AggregateQuestion {
   count: Int!
 }
@@ -118,6 +122,150 @@ type BatchPayload {
 
 scalar DateTime
 
+type Evaluation {
+  id: ID!
+  user: User!
+  question: Question!
+  score: Int!
+  description: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type EvaluationConnection {
+  pageInfo: PageInfo!
+  edges: [EvaluationEdge]!
+  aggregate: AggregateEvaluation!
+}
+
+input EvaluationCreateInput {
+  id: ID
+  user: UserCreateOneInput!
+  question: QuestionCreateOneInput!
+  score: Int!
+  description: String!
+}
+
+type EvaluationEdge {
+  node: Evaluation!
+  cursor: String!
+}
+
+enum EvaluationOrderByInput {
+  id_ASC
+  id_DESC
+  score_ASC
+  score_DESC
+  description_ASC
+  description_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type EvaluationPreviousValues {
+  id: ID!
+  score: Int!
+  description: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type EvaluationSubscriptionPayload {
+  mutation: MutationType!
+  node: Evaluation
+  updatedFields: [String!]
+  previousValues: EvaluationPreviousValues
+}
+
+input EvaluationSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: EvaluationWhereInput
+  AND: [EvaluationSubscriptionWhereInput!]
+  OR: [EvaluationSubscriptionWhereInput!]
+  NOT: [EvaluationSubscriptionWhereInput!]
+}
+
+input EvaluationUpdateInput {
+  user: UserUpdateOneRequiredInput
+  question: QuestionUpdateOneRequiredInput
+  score: Int
+  description: String
+}
+
+input EvaluationUpdateManyMutationInput {
+  score: Int
+  description: String
+}
+
+input EvaluationWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  user: UserWhereInput
+  question: QuestionWhereInput
+  score: Int
+  score_not: Int
+  score_in: [Int!]
+  score_not_in: [Int!]
+  score_lt: Int
+  score_lte: Int
+  score_gt: Int
+  score_gte: Int
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [EvaluationWhereInput!]
+  OR: [EvaluationWhereInput!]
+  NOT: [EvaluationWhereInput!]
+}
+
+input EvaluationWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
@@ -127,6 +275,12 @@ type Mutation {
   upsertAcceptRecord(where: AcceptRecordWhereUniqueInput!, create: AcceptRecordCreateInput!, update: AcceptRecordUpdateInput!): AcceptRecord!
   deleteAcceptRecord(where: AcceptRecordWhereUniqueInput!): AcceptRecord
   deleteManyAcceptRecords(where: AcceptRecordWhereInput): BatchPayload!
+  createEvaluation(data: EvaluationCreateInput!): Evaluation!
+  updateEvaluation(data: EvaluationUpdateInput!, where: EvaluationWhereUniqueInput!): Evaluation
+  updateManyEvaluations(data: EvaluationUpdateManyMutationInput!, where: EvaluationWhereInput): BatchPayload!
+  upsertEvaluation(where: EvaluationWhereUniqueInput!, create: EvaluationCreateInput!, update: EvaluationUpdateInput!): Evaluation!
+  deleteEvaluation(where: EvaluationWhereUniqueInput!): Evaluation
+  deleteManyEvaluations(where: EvaluationWhereInput): BatchPayload!
   createQuestion(data: QuestionCreateInput!): Question!
   updateQuestion(data: QuestionUpdateInput!, where: QuestionWhereUniqueInput!): Question
   updateManyQuestions(data: QuestionUpdateManyMutationInput!, where: QuestionWhereInput): BatchPayload!
@@ -162,6 +316,9 @@ type Query {
   acceptRecord(where: AcceptRecordWhereUniqueInput!): AcceptRecord
   acceptRecords(where: AcceptRecordWhereInput, orderBy: AcceptRecordOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AcceptRecord]!
   acceptRecordsConnection(where: AcceptRecordWhereInput, orderBy: AcceptRecordOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AcceptRecordConnection!
+  evaluation(where: EvaluationWhereUniqueInput!): Evaluation
+  evaluations(where: EvaluationWhereInput, orderBy: EvaluationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Evaluation]!
+  evaluationsConnection(where: EvaluationWhereInput, orderBy: EvaluationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EvaluationConnection!
   question(where: QuestionWhereUniqueInput!): Question
   questions(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Question]!
   questionsConnection(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): QuestionConnection!
@@ -191,6 +348,11 @@ input QuestionCreateInput {
   round: Int!
   quetionTitle: String!
   sort: Int!
+}
+
+input QuestionCreateOneInput {
+  create: QuestionCreateInput
+  connect: QuestionWhereUniqueInput
 }
 
 type QuestionEdge {
@@ -240,6 +402,12 @@ input QuestionSubscriptionWhereInput {
   NOT: [QuestionSubscriptionWhereInput!]
 }
 
+input QuestionUpdateDataInput {
+  round: Int
+  quetionTitle: String
+  sort: Int
+}
+
 input QuestionUpdateInput {
   round: Int
   quetionTitle: String
@@ -250,6 +418,18 @@ input QuestionUpdateManyMutationInput {
   round: Int
   quetionTitle: String
   sort: Int
+}
+
+input QuestionUpdateOneRequiredInput {
+  create: QuestionCreateInput
+  update: QuestionUpdateDataInput
+  upsert: QuestionUpsertNestedInput
+  connect: QuestionWhereUniqueInput
+}
+
+input QuestionUpsertNestedInput {
+  update: QuestionUpdateDataInput!
+  create: QuestionCreateInput!
 }
 
 input QuestionWhereInput {
@@ -324,6 +504,7 @@ input QuestionWhereUniqueInput {
 
 type Subscription {
   acceptRecord(where: AcceptRecordSubscriptionWhereInput): AcceptRecordSubscriptionPayload
+  evaluation(where: EvaluationSubscriptionWhereInput): EvaluationSubscriptionPayload
   question(where: QuestionSubscriptionWhereInput): QuestionSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
@@ -332,8 +513,9 @@ type User {
   id: ID!
   round: Int!
   username: String!
-  mobile: Int!
+  mobileNumber: String!
   isExpert: Boolean!
+  isComplete: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -348,8 +530,14 @@ input UserCreateInput {
   id: ID
   round: Int!
   username: String!
-  mobile: Int!
+  mobileNumber: String!
   isExpert: Boolean
+  isComplete: Boolean
+}
+
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
 }
 
 type UserEdge {
@@ -364,10 +552,12 @@ enum UserOrderByInput {
   round_DESC
   username_ASC
   username_DESC
-  mobile_ASC
-  mobile_DESC
+  mobileNumber_ASC
+  mobileNumber_DESC
   isExpert_ASC
   isExpert_DESC
+  isComplete_ASC
+  isComplete_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -378,8 +568,9 @@ type UserPreviousValues {
   id: ID!
   round: Int!
   username: String!
-  mobile: Int!
+  mobileNumber: String!
   isExpert: Boolean!
+  isComplete: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -402,18 +593,40 @@ input UserSubscriptionWhereInput {
   NOT: [UserSubscriptionWhereInput!]
 }
 
+input UserUpdateDataInput {
+  round: Int
+  username: String
+  mobileNumber: String
+  isExpert: Boolean
+  isComplete: Boolean
+}
+
 input UserUpdateInput {
   round: Int
   username: String
-  mobile: Int
+  mobileNumber: String
   isExpert: Boolean
+  isComplete: Boolean
 }
 
 input UserUpdateManyMutationInput {
   round: Int
   username: String
-  mobile: Int
+  mobileNumber: String
   isExpert: Boolean
+  isComplete: Boolean
+}
+
+input UserUpdateOneRequiredInput {
+  create: UserCreateInput
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserWhereInput {
@@ -453,16 +666,24 @@ input UserWhereInput {
   username_not_starts_with: String
   username_ends_with: String
   username_not_ends_with: String
-  mobile: Int
-  mobile_not: Int
-  mobile_in: [Int!]
-  mobile_not_in: [Int!]
-  mobile_lt: Int
-  mobile_lte: Int
-  mobile_gt: Int
-  mobile_gte: Int
+  mobileNumber: String
+  mobileNumber_not: String
+  mobileNumber_in: [String!]
+  mobileNumber_not_in: [String!]
+  mobileNumber_lt: String
+  mobileNumber_lte: String
+  mobileNumber_gt: String
+  mobileNumber_gte: String
+  mobileNumber_contains: String
+  mobileNumber_not_contains: String
+  mobileNumber_starts_with: String
+  mobileNumber_not_starts_with: String
+  mobileNumber_ends_with: String
+  mobileNumber_not_ends_with: String
   isExpert: Boolean
   isExpert_not: Boolean
+  isComplete: Boolean
+  isComplete_not: Boolean
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -486,8 +707,6 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
-  username: String
-  mobile: Int
 }
 `
       }

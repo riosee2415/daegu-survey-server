@@ -1,0 +1,8 @@
+type Mutation {
+  createUser(
+    username: String!
+    mobileNumber: String!
+    round: Int!
+    isExpert: Boolean!
+  ): Boolean!
+}

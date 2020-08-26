@@ -1,9 +1,10 @@
 type User {
   id: ID! @id
   round : Int!
-  username: String! @unique
-  mobile : Int! @unique
+  username: String!
+  mobileNumber : String!
   isExpert : Boolean! @default(value : false)
+  isComplete : Boolean! @default(value : false)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
@@ -19,6 +20,16 @@ type Question {
   round : Int!
   quetionTitle: String!
   sort: Int!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Evaluation {
+  id: ID! @id
+  user: User!
+  question: Question!
+  score: Int!
+  description: String!
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }

@@ -1,3 +1,4 @@
 type Query {
-  seeUsers: [User!]!
+  getUserByExpert(isExpert: Boolean!, round: Int!): [User!]!
+  getAllUser(round: Int!): [User!]!
 }

@@ -5,4 +5,5 @@ type Query {
 type Mutation {
   deleteQuestion(id: String!): Boolean!
   modifyQuestionSort(id: String!, sort: Int!): Boolean!
+  createQuestion(round: Int!, quetionTitle: String!, sort: Int!): Boolean!
 }
