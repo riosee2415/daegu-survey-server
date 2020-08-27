@@ -1,0 +1,3 @@
+type Query {
+  getScore(id: String!): Float!
+}

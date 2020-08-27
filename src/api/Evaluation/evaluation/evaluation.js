@@ -19,6 +19,12 @@ export default {
         return [];
       }
     },
+
+    getAvgData: async (_, args) => {
+      const { id } = args;
+      console.log(id);
+      return 6;
+    },
   },
 
   Mutation: {

@@ -19,6 +19,49 @@ export default {
         return false;
       }
     },
+    getQuestionForTotal: async (_, args) => {
+      const { round } = args;
+
+      // const avgArr = [];
+
+      try {
+        const result = await prisma.questions({
+          where: {
+            round,
+          },
+          orderBy: "sort_ASC",
+        });
+
+        // await Promise.all(
+        //   result.map(async (data, index) => {
+        //     const EvaluationData = await prisma.evaluations({
+        //       where: {
+        //         question: {
+        //           id: data.id,
+        //         },
+        //       },
+        //     });
+
+        //     let sum = 0;
+
+        //     EvaluationData.map(async (doc, idx) => {
+        //       sum = sum + doc.score;
+
+        //       if (EvaluationData.length - 1 === idx) {
+        //         avgArr.push(sum / EvaluationData.length);
+        //       }
+        //     });
+        //   })
+        // );
+
+        // console.log(avgArr);
+
+        return result;
+      } catch (e) {
+        console.log(e);
+        return false;
+      }
+    },
   },
 
   Mutation: {

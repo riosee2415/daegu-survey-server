@@ -1,5 +1,6 @@
 type Query {
   getSelectEvaluation(id: String!): [Evaluation!]!
+  getAvgData(id: String!): Int!
 }
 
 type Mutation {
