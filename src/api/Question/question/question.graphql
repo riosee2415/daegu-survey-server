@@ -1,6 +1,7 @@
 type Query {
   getQuestion(round: Int!): [Question!]!
   getQuestionForTotal(round: Int!): [Question!]!
+  getAllQuestionForTotal(round: Int!): [Question!]!
 }
 
 type Mutation {
