@@ -32,3 +32,10 @@ type Evaluation {
   createdAt: String!
   updatedAt: String!
 }
+
+type Streaming {
+  id: ID!
+  key: String!
+  createdAt: String!
+  updatedAt: String!
+}

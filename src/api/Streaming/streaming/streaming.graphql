@@ -1,0 +1,7 @@
+type Query {
+  getStreaming(id: String!): Streaming!
+}
+
+type Mutation {
+  modifyStreaming(id: String!, key: String!): Boolean!
+}

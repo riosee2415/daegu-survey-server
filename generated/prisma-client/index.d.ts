@@ -19,6 +19,7 @@ export interface Exists {
   acceptRecord: (where?: AcceptRecordWhereInput) => Promise<boolean>;
   evaluation: (where?: EvaluationWhereInput) => Promise<boolean>;
   question: (where?: QuestionWhereInput) => Promise<boolean>;
+  streaming: (where?: StreamingWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -100,6 +101,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => QuestionConnectionPromise;
+  streaming: (where: StreamingWhereUniqueInput) => StreamingNullablePromise;
+  streamings: (args?: {
+    where?: StreamingWhereInput;
+    orderBy?: StreamingOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Streaming>;
+  streamingsConnection: (args?: {
+    where?: StreamingWhereInput;
+    orderBy?: StreamingOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => StreamingConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -177,6 +197,22 @@ export interface Prisma {
   }) => QuestionPromise;
   deleteQuestion: (where: QuestionWhereUniqueInput) => QuestionPromise;
   deleteManyQuestions: (where?: QuestionWhereInput) => BatchPayloadPromise;
+  createStreaming: (data: StreamingCreateInput) => StreamingPromise;
+  updateStreaming: (args: {
+    data: StreamingUpdateInput;
+    where: StreamingWhereUniqueInput;
+  }) => StreamingPromise;
+  updateManyStreamings: (args: {
+    data: StreamingUpdateManyMutationInput;
+    where?: StreamingWhereInput;
+  }) => BatchPayloadPromise;
+  upsertStreaming: (args: {
+    where: StreamingWhereUniqueInput;
+    create: StreamingCreateInput;
+    update: StreamingUpdateInput;
+  }) => StreamingPromise;
+  deleteStreaming: (where: StreamingWhereUniqueInput) => StreamingPromise;
+  deleteManyStreamings: (where?: StreamingWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -211,6 +247,9 @@ export interface Subscription {
   question: (
     where?: QuestionSubscriptionWhereInput
   ) => QuestionSubscriptionPayloadSubscription;
+  streaming: (
+    where?: StreamingSubscriptionWhereInput
+  ) => StreamingSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -251,6 +290,16 @@ export type QuestionOrderByInput =
   | "quetionTitle_DESC"
   | "sort_ASC"
   | "sort_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type StreamingOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "key_ASC"
+  | "key_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -524,6 +573,60 @@ export type QuestionWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
+export type StreamingWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface StreamingWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  key?: Maybe<String>;
+  key_not?: Maybe<String>;
+  key_in?: Maybe<String[] | String>;
+  key_not_in?: Maybe<String[] | String>;
+  key_lt?: Maybe<String>;
+  key_lte?: Maybe<String>;
+  key_gt?: Maybe<String>;
+  key_gte?: Maybe<String>;
+  key_contains?: Maybe<String>;
+  key_not_contains?: Maybe<String>;
+  key_starts_with?: Maybe<String>;
+  key_not_starts_with?: Maybe<String>;
+  key_ends_with?: Maybe<String>;
+  key_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<StreamingWhereInput[] | StreamingWhereInput>;
+  OR?: Maybe<StreamingWhereInput[] | StreamingWhereInput>;
+  NOT?: Maybe<StreamingWhereInput[] | StreamingWhereInput>;
+}
+
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -637,6 +740,19 @@ export interface QuestionUpdateManyMutationInput {
   sort?: Maybe<Int>;
 }
 
+export interface StreamingCreateInput {
+  id?: Maybe<ID_Input>;
+  key: String;
+}
+
+export interface StreamingUpdateInput {
+  key?: Maybe<String>;
+}
+
+export interface StreamingUpdateManyMutationInput {
+  key?: Maybe<String>;
+}
+
 export interface UserUpdateInput {
   round?: Maybe<Int>;
   username?: Maybe<String>;
@@ -699,6 +815,23 @@ export interface QuestionSubscriptionWhereInput {
   OR?: Maybe<QuestionSubscriptionWhereInput[] | QuestionSubscriptionWhereInput>;
   NOT?: Maybe<
     QuestionSubscriptionWhereInput[] | QuestionSubscriptionWhereInput
+  >;
+}
+
+export interface StreamingSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<StreamingWhereInput>;
+  AND?: Maybe<
+    StreamingSubscriptionWhereInput[] | StreamingSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    StreamingSubscriptionWhereInput[] | StreamingSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    StreamingSubscriptionWhereInput[] | StreamingSubscriptionWhereInput
   >;
 }
 
@@ -1064,6 +1197,94 @@ export interface AggregateQuestionSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface Streaming {
+  id: ID_Output;
+  key: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface StreamingPromise extends Promise<Streaming>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  key: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface StreamingSubscription
+  extends Promise<AsyncIterator<Streaming>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  key: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface StreamingNullablePromise
+  extends Promise<Streaming | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  key: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface StreamingConnection {
+  pageInfo: PageInfo;
+  edges: StreamingEdge[];
+}
+
+export interface StreamingConnectionPromise
+  extends Promise<StreamingConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<StreamingEdge>>() => T;
+  aggregate: <T = AggregateStreamingPromise>() => T;
+}
+
+export interface StreamingConnectionSubscription
+  extends Promise<AsyncIterator<StreamingConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<StreamingEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateStreamingSubscription>() => T;
+}
+
+export interface StreamingEdge {
+  node: Streaming;
+  cursor: String;
+}
+
+export interface StreamingEdgePromise
+  extends Promise<StreamingEdge>,
+    Fragmentable {
+  node: <T = StreamingPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface StreamingEdgeSubscription
+  extends Promise<AsyncIterator<StreamingEdge>>,
+    Fragmentable {
+  node: <T = StreamingSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateStreaming {
+  count: Int;
+}
+
+export interface AggregateStreamingPromise
+  extends Promise<AggregateStreaming>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateStreamingSubscription
+  extends Promise<AsyncIterator<AggregateStreaming>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface UserConnection {
   pageInfo: PageInfo;
   edges: UserEdge[];
@@ -1287,6 +1508,56 @@ export interface QuestionPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
+export interface StreamingSubscriptionPayload {
+  mutation: MutationType;
+  node: Streaming;
+  updatedFields: String[];
+  previousValues: StreamingPreviousValues;
+}
+
+export interface StreamingSubscriptionPayloadPromise
+  extends Promise<StreamingSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = StreamingPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = StreamingPreviousValuesPromise>() => T;
+}
+
+export interface StreamingSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<StreamingSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = StreamingSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = StreamingPreviousValuesSubscription>() => T;
+}
+
+export interface StreamingPreviousValues {
+  id: ID_Output;
+  key: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface StreamingPreviousValuesPromise
+  extends Promise<StreamingPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  key: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface StreamingPreviousValuesSubscription
+  extends Promise<AsyncIterator<StreamingPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  key: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
 export interface UserSubscriptionPayload {
   mutation: MutationType;
   node: User;
@@ -1401,6 +1672,10 @@ export const models: Model[] = [
   },
   {
     name: "Evaluation",
+    embedded: false
+  },
+  {
+    name: "Streaming",
     embedded: false
   }
 ];

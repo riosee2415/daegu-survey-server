@@ -22,8 +22,34 @@ export default {
 
     getAvgData: async (_, args) => {
       const { id } = args;
-      console.log(id);
-      return 6;
+
+      try {
+        const result = await prisma.evaluations({});
+        console.log(result);
+        return 1;
+      } catch (e) {
+        console.log(e);
+        return 0;
+      }
+    },
+
+    getEvaluationByQuestion: async (_, args) => {
+      const { id } = args;
+
+      try {
+        const result = await prisma.evaluations({
+          where: {
+            question: {
+              id: id,
+            },
+          },
+          orderBy: "createdAt_ASC",
+        });
+        return result;
+      } catch (e) {
+        console.log(e);
+        return [];
+      }
     },
   },
 

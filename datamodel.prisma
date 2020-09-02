@@ -33,3 +33,10 @@ type Evaluation {
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
+
+type Streaming {
+  id: ID! @id
+  key: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
