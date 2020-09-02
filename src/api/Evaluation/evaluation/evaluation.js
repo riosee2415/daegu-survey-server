@@ -33,19 +33,42 @@ export default {
       }
     },
 
-    getEvaluationByQuestion: async (_, args) => {
-      const { id } = args;
+    getEvaluationAvg: async (_, args) => {
+      const { round } = args;
+
+      const avgDatum = [];
 
       try {
-        const result = await prisma.evaluations({
+        const questionResult = await prisma.questions({
           where: {
-            question: {
-              id: id,
-            },
+            round,
           },
-          orderBy: "createdAt_ASC",
+          orderBy: "sort_ASC",
         });
-        return result;
+
+        await Promise.all(
+          questionResult.map(async (data, idx) => {
+            const evaluationResult = await prisma.evaluations({
+              where: {
+                question: {
+                  id: data.id,
+                },
+              },
+              orderBy: "createdAt_ASC",
+            });
+
+            const sum = evaluationResult.reduce((a, b) => a.score + b.score);
+            const length = evaluationResult.length;
+
+            const avgData = {
+              value: (sum / length).toFixed(1),
+              percent: Math.floor((sum / length / 10) * 100),
+            };
+            avgDatum.push(avgData);
+          })
+        );
+
+        return avgDatum;
       } catch (e) {
         console.log(e);
         return [];

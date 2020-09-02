@@ -33,6 +33,11 @@ type Evaluation {
   updatedAt: String!
 }
 
+type EvaluationAvg {
+  value: String!
+  percent: Int!
+}
+
 type Streaming {
   id: ID!
   key: String!
