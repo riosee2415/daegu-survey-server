@@ -2,6 +2,10 @@ import { prisma } from "../../../../generated/prisma-client";
 
 export default {
   Query: {
+    getAllEval: async (_, args) => {
+      return await prisma.evaluations();
+    },
+
     getSelectEvaluation: async (_, args) => {
       const { id } = args;
 
