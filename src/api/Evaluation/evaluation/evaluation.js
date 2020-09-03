@@ -61,7 +61,14 @@ export default {
               orderBy: "createdAt_ASC",
             });
 
-            const sum = evaluationResult.reduce((a, b) => a.score + b.score);
+            let sum = 0;
+            if (evaluationResult.length === 1) {
+              sum = evaluationResult[0].score;
+            } else {
+              sum = evaluationResult.reduce((a, b) => {
+                return a.score + b.score;
+              });
+            }
             const length = evaluationResult.length;
 
             const avgData = {
@@ -72,7 +79,6 @@ export default {
             avgDatum.push(avgData);
           })
         );
-
         return avgDatum;
       } catch (e) {
         console.log(e);
