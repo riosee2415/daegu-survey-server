@@ -1,4 +1,5 @@
 type EvaluationAvg {
+  questionTitle: String!
   value: String!
   percent: Int!
 }

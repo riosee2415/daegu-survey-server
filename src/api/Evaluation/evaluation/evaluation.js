@@ -51,7 +51,7 @@ export default {
         });
 
         await Promise.all(
-          questionResult.map(async (data, idx) => {
+          questionResult.map(async (data) => {
             const evaluationResult = await prisma.evaluations({
               where: {
                 question: {
@@ -65,6 +65,7 @@ export default {
             const length = evaluationResult.length;
 
             const avgData = {
+              questionTitle: data.quetionTitle,
               value: (sum / length).toFixed(1),
               percent: Math.floor((sum / length / 10) * 100),
             };
