@@ -29,7 +29,6 @@ export default {
 
       try {
         const result = await prisma.evaluations({});
-        console.log(result);
         return 1;
       } catch (e) {
         console.log(e);
@@ -102,8 +101,6 @@ export default {
           score,
           description,
         });
-
-        console.log(result);
 
         return true;
       } catch (e) {
