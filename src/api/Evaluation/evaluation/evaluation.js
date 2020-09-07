@@ -61,15 +61,14 @@ export default {
             });
 
             let sum = 0;
-            if (evaluationResult.length === 1) {
-              sum = evaluationResult[0].score;
-            } else {
-              sum = evaluationResult.reduce((a, b) => {
-                return a.score + b.score;
-              });
-            }
-            const length = evaluationResult.length;
 
+            await Promise.all(
+              evaluationResult.map((data, idx) => {
+                sum += parseInt(evaluationResult[idx].score);
+              })
+            );
+
+            const length = evaluationResult.length;
             const avgData = {
               questionTitle: data.quetionTitle,
               value: (sum / length).toFixed(1),
