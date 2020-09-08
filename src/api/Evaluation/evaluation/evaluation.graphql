@@ -2,6 +2,7 @@ type EvaluationAvg {
   questionTitle: String!
   value: String!
   percent: Int!
+  isExpert: Boolean!
 }
 
 type Query {

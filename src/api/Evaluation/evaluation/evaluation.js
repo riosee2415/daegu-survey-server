@@ -40,6 +40,8 @@ export default {
       const { round } = args;
 
       const avgDatum = [];
+      const expertAvgDatum = [];
+      const allAvgDatum = [];
 
       try {
         const questionResult = await prisma.questions({
@@ -55,6 +57,9 @@ export default {
               where: {
                 question: {
                   id: data.id,
+                },
+                user: {
+                  isExpert: false,
                 },
               },
               orderBy: "createdAt_ASC",
@@ -73,11 +78,53 @@ export default {
               questionTitle: data.quetionTitle,
               value: (sum / length).toFixed(1),
               percent: Math.floor((sum / length / 10) * 100),
+              isExpert: false,
             };
             avgDatum.push(avgData);
           })
         );
-        return avgDatum;
+
+        await Promise.all(
+          questionResult.map(async (data) => {
+            const evaluationResult = await prisma.evaluations({
+              where: {
+                question: {
+                  id: data.id,
+                },
+                user: {
+                  isExpert: true,
+                },
+              },
+              orderBy: "createdAt_ASC",
+            });
+
+            let sum = 0;
+
+            await Promise.all(
+              evaluationResult.map((data, idx) => {
+                sum += parseInt(evaluationResult[idx].score);
+              })
+            );
+
+            const length = evaluationResult.length;
+            const avgData = {
+              questionTitle: data.quetionTitle,
+              value: (sum / length).toFixed(1),
+              percent: Math.floor((sum / length / 100) * 100),
+              isExpert: true,
+            };
+            expertAvgDatum.push(avgData);
+          })
+        );
+
+        await Promise.all(
+          avgDatum.map((data, idx) => {
+            allAvgDatum.push(avgDatum[idx]);
+            allAvgDatum.push(expertAvgDatum[idx]);
+          })
+        );
+
+        return allAvgDatum;
       } catch (e) {
         console.log(e);
         return [];
