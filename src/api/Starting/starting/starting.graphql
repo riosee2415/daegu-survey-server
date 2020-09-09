@@ -1,0 +1,7 @@
+type Query {
+  getStarting: Starting!
+}
+
+type Mutation {
+  modifyStarting(status: Boolean!): Boolean!
+}

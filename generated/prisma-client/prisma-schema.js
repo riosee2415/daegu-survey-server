@@ -112,6 +112,10 @@ type AggregateQuestion {
   count: Int!
 }
 
+type AggregateStarting {
+  count: Int!
+}
+
 type AggregateStreaming {
   count: Int!
 }
@@ -291,6 +295,12 @@ type Mutation {
   upsertQuestion(where: QuestionWhereUniqueInput!, create: QuestionCreateInput!, update: QuestionUpdateInput!): Question!
   deleteQuestion(where: QuestionWhereUniqueInput!): Question
   deleteManyQuestions(where: QuestionWhereInput): BatchPayload!
+  createStarting(data: StartingCreateInput!): Starting!
+  updateStarting(data: StartingUpdateInput!, where: StartingWhereUniqueInput!): Starting
+  updateManyStartings(data: StartingUpdateManyMutationInput!, where: StartingWhereInput): BatchPayload!
+  upsertStarting(where: StartingWhereUniqueInput!, create: StartingCreateInput!, update: StartingUpdateInput!): Starting!
+  deleteStarting(where: StartingWhereUniqueInput!): Starting
+  deleteManyStartings(where: StartingWhereInput): BatchPayload!
   createStreaming(data: StreamingCreateInput!): Streaming!
   updateStreaming(data: StreamingUpdateInput!, where: StreamingWhereUniqueInput!): Streaming
   updateManyStreamings(data: StreamingUpdateManyMutationInput!, where: StreamingWhereInput): BatchPayload!
@@ -332,6 +342,9 @@ type Query {
   question(where: QuestionWhereUniqueInput!): Question
   questions(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Question]!
   questionsConnection(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): QuestionConnection!
+  starting(where: StartingWhereUniqueInput!): Starting
+  startings(where: StartingWhereInput, orderBy: StartingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Starting]!
+  startingsConnection(where: StartingWhereInput, orderBy: StartingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StartingConnection!
   streaming(where: StreamingWhereUniqueInput!): Streaming
   streamings(where: StreamingWhereInput, orderBy: StreamingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Streaming]!
   streamingsConnection(where: StreamingWhereInput, orderBy: StreamingOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): StreamingConnection!
@@ -515,6 +528,91 @@ input QuestionWhereUniqueInput {
   id: ID
 }
 
+type Starting {
+  id: ID!
+  isStart: Boolean!
+}
+
+type StartingConnection {
+  pageInfo: PageInfo!
+  edges: [StartingEdge]!
+  aggregate: AggregateStarting!
+}
+
+input StartingCreateInput {
+  id: ID
+  isStart: Boolean!
+}
+
+type StartingEdge {
+  node: Starting!
+  cursor: String!
+}
+
+enum StartingOrderByInput {
+  id_ASC
+  id_DESC
+  isStart_ASC
+  isStart_DESC
+}
+
+type StartingPreviousValues {
+  id: ID!
+  isStart: Boolean!
+}
+
+type StartingSubscriptionPayload {
+  mutation: MutationType!
+  node: Starting
+  updatedFields: [String!]
+  previousValues: StartingPreviousValues
+}
+
+input StartingSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: StartingWhereInput
+  AND: [StartingSubscriptionWhereInput!]
+  OR: [StartingSubscriptionWhereInput!]
+  NOT: [StartingSubscriptionWhereInput!]
+}
+
+input StartingUpdateInput {
+  isStart: Boolean
+}
+
+input StartingUpdateManyMutationInput {
+  isStart: Boolean
+}
+
+input StartingWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  isStart: Boolean
+  isStart_not: Boolean
+  AND: [StartingWhereInput!]
+  OR: [StartingWhereInput!]
+  NOT: [StartingWhereInput!]
+}
+
+input StartingWhereUniqueInput {
+  id: ID
+}
+
 type Streaming {
   id: ID!
   key: String!
@@ -640,6 +738,7 @@ type Subscription {
   acceptRecord(where: AcceptRecordSubscriptionWhereInput): AcceptRecordSubscriptionPayload
   evaluation(where: EvaluationSubscriptionWhereInput): EvaluationSubscriptionPayload
   question(where: QuestionSubscriptionWhereInput): QuestionSubscriptionPayload
+  starting(where: StartingSubscriptionWhereInput): StartingSubscriptionPayload
   streaming(where: StreamingSubscriptionWhereInput): StreamingSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }

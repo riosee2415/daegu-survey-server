@@ -19,6 +19,7 @@ export interface Exists {
   acceptRecord: (where?: AcceptRecordWhereInput) => Promise<boolean>;
   evaluation: (where?: EvaluationWhereInput) => Promise<boolean>;
   question: (where?: QuestionWhereInput) => Promise<boolean>;
+  starting: (where?: StartingWhereInput) => Promise<boolean>;
   streaming: (where?: StreamingWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
@@ -101,6 +102,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => QuestionConnectionPromise;
+  starting: (where: StartingWhereUniqueInput) => StartingNullablePromise;
+  startings: (args?: {
+    where?: StartingWhereInput;
+    orderBy?: StartingOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Starting>;
+  startingsConnection: (args?: {
+    where?: StartingWhereInput;
+    orderBy?: StartingOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => StartingConnectionPromise;
   streaming: (where: StreamingWhereUniqueInput) => StreamingNullablePromise;
   streamings: (args?: {
     where?: StreamingWhereInput;
@@ -197,6 +217,22 @@ export interface Prisma {
   }) => QuestionPromise;
   deleteQuestion: (where: QuestionWhereUniqueInput) => QuestionPromise;
   deleteManyQuestions: (where?: QuestionWhereInput) => BatchPayloadPromise;
+  createStarting: (data: StartingCreateInput) => StartingPromise;
+  updateStarting: (args: {
+    data: StartingUpdateInput;
+    where: StartingWhereUniqueInput;
+  }) => StartingPromise;
+  updateManyStartings: (args: {
+    data: StartingUpdateManyMutationInput;
+    where?: StartingWhereInput;
+  }) => BatchPayloadPromise;
+  upsertStarting: (args: {
+    where: StartingWhereUniqueInput;
+    create: StartingCreateInput;
+    update: StartingUpdateInput;
+  }) => StartingPromise;
+  deleteStarting: (where: StartingWhereUniqueInput) => StartingPromise;
+  deleteManyStartings: (where?: StartingWhereInput) => BatchPayloadPromise;
   createStreaming: (data: StreamingCreateInput) => StreamingPromise;
   updateStreaming: (args: {
     data: StreamingUpdateInput;
@@ -247,6 +283,9 @@ export interface Subscription {
   question: (
     where?: QuestionSubscriptionWhereInput
   ) => QuestionSubscriptionPayloadSubscription;
+  starting: (
+    where?: StartingSubscriptionWhereInput
+  ) => StartingSubscriptionPayloadSubscription;
   streaming: (
     where?: StreamingSubscriptionWhereInput
   ) => StreamingSubscriptionPayloadSubscription;
@@ -294,6 +333,12 @@ export type QuestionOrderByInput =
   | "createdAt_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC";
+
+export type StartingOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "isStart_ASC"
+  | "isStart_DESC";
 
 export type StreamingOrderByInput =
   | "id_ASC"
@@ -573,6 +618,32 @@ export type QuestionWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
 
+export type StartingWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface StartingWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  isStart?: Maybe<Boolean>;
+  isStart_not?: Maybe<Boolean>;
+  AND?: Maybe<StartingWhereInput[] | StartingWhereInput>;
+  OR?: Maybe<StartingWhereInput[] | StartingWhereInput>;
+  NOT?: Maybe<StartingWhereInput[] | StartingWhereInput>;
+}
+
 export type StreamingWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -740,6 +811,19 @@ export interface QuestionUpdateManyMutationInput {
   sort?: Maybe<Int>;
 }
 
+export interface StartingCreateInput {
+  id?: Maybe<ID_Input>;
+  isStart: Boolean;
+}
+
+export interface StartingUpdateInput {
+  isStart?: Maybe<Boolean>;
+}
+
+export interface StartingUpdateManyMutationInput {
+  isStart?: Maybe<Boolean>;
+}
+
 export interface StreamingCreateInput {
   id?: Maybe<ID_Input>;
   key: String;
@@ -815,6 +899,21 @@ export interface QuestionSubscriptionWhereInput {
   OR?: Maybe<QuestionSubscriptionWhereInput[] | QuestionSubscriptionWhereInput>;
   NOT?: Maybe<
     QuestionSubscriptionWhereInput[] | QuestionSubscriptionWhereInput
+  >;
+}
+
+export interface StartingSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<StartingWhereInput>;
+  AND?: Maybe<
+    StartingSubscriptionWhereInput[] | StartingSubscriptionWhereInput
+  >;
+  OR?: Maybe<StartingSubscriptionWhereInput[] | StartingSubscriptionWhereInput>;
+  NOT?: Maybe<
+    StartingSubscriptionWhereInput[] | StartingSubscriptionWhereInput
   >;
 }
 
@@ -1197,6 +1296,86 @@ export interface AggregateQuestionSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface Starting {
+  id: ID_Output;
+  isStart: Boolean;
+}
+
+export interface StartingPromise extends Promise<Starting>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  isStart: () => Promise<Boolean>;
+}
+
+export interface StartingSubscription
+  extends Promise<AsyncIterator<Starting>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  isStart: () => Promise<AsyncIterator<Boolean>>;
+}
+
+export interface StartingNullablePromise
+  extends Promise<Starting | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  isStart: () => Promise<Boolean>;
+}
+
+export interface StartingConnection {
+  pageInfo: PageInfo;
+  edges: StartingEdge[];
+}
+
+export interface StartingConnectionPromise
+  extends Promise<StartingConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<StartingEdge>>() => T;
+  aggregate: <T = AggregateStartingPromise>() => T;
+}
+
+export interface StartingConnectionSubscription
+  extends Promise<AsyncIterator<StartingConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<StartingEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateStartingSubscription>() => T;
+}
+
+export interface StartingEdge {
+  node: Starting;
+  cursor: String;
+}
+
+export interface StartingEdgePromise
+  extends Promise<StartingEdge>,
+    Fragmentable {
+  node: <T = StartingPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface StartingEdgeSubscription
+  extends Promise<AsyncIterator<StartingEdge>>,
+    Fragmentable {
+  node: <T = StartingSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateStarting {
+  count: Int;
+}
+
+export interface AggregateStartingPromise
+  extends Promise<AggregateStarting>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateStartingSubscription
+  extends Promise<AsyncIterator<AggregateStarting>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface Streaming {
   id: ID_Output;
   key: String;
@@ -1508,6 +1687,50 @@ export interface QuestionPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
+export interface StartingSubscriptionPayload {
+  mutation: MutationType;
+  node: Starting;
+  updatedFields: String[];
+  previousValues: StartingPreviousValues;
+}
+
+export interface StartingSubscriptionPayloadPromise
+  extends Promise<StartingSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = StartingPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = StartingPreviousValuesPromise>() => T;
+}
+
+export interface StartingSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<StartingSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = StartingSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = StartingPreviousValuesSubscription>() => T;
+}
+
+export interface StartingPreviousValues {
+  id: ID_Output;
+  isStart: Boolean;
+}
+
+export interface StartingPreviousValuesPromise
+  extends Promise<StartingPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  isStart: () => Promise<Boolean>;
+}
+
+export interface StartingPreviousValuesSubscription
+  extends Promise<AsyncIterator<StartingPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  isStart: () => Promise<AsyncIterator<Boolean>>;
+}
+
 export interface StreamingSubscriptionPayload {
   mutation: MutationType;
   node: Streaming;
@@ -1676,6 +1899,10 @@ export const models: Model[] = [
   },
   {
     name: "Streaming",
+    embedded: false
+  },
+  {
+    name: "Starting",
     embedded: false
   }
 ];
