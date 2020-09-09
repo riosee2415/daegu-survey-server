@@ -39,3 +39,8 @@ type Streaming {
   createdAt: String!
   updatedAt: String!
 }
+
+type Starting {
+  id: ID!
+  isStart: Boolean!
+}

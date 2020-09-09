@@ -23,6 +23,10 @@ var models = [
   {
     name: "Streaming",
     embedded: false
+  },
+  {
+    name: "Starting",
+    embedded: false
   }
 ];
 exports.Prisma = prisma_lib_1.makePrismaClientClass({

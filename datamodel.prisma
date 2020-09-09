@@ -40,3 +40,8 @@ type Streaming {
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
+
+type Starting {
+  id: ID! @id
+  isStart: Boolean!
+}
