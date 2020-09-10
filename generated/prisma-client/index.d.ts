@@ -19,6 +19,7 @@ export interface Exists {
   acceptRecord: (where?: AcceptRecordWhereInput) => Promise<boolean>;
   evaluation: (where?: EvaluationWhereInput) => Promise<boolean>;
   loginLog: (where?: LoginLogWhereInput) => Promise<boolean>;
+  mainText: (where?: MainTextWhereInput) => Promise<boolean>;
   question: (where?: QuestionWhereInput) => Promise<boolean>;
   starting: (where?: StartingWhereInput) => Promise<boolean>;
   streaming: (where?: StreamingWhereInput) => Promise<boolean>;
@@ -103,6 +104,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => LoginLogConnectionPromise;
+  mainText: (where: MainTextWhereUniqueInput) => MainTextNullablePromise;
+  mainTexts: (args?: {
+    where?: MainTextWhereInput;
+    orderBy?: MainTextOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<MainText>;
+  mainTextsConnection: (args?: {
+    where?: MainTextWhereInput;
+    orderBy?: MainTextOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => MainTextConnectionPromise;
   question: (where: QuestionWhereUniqueInput) => QuestionNullablePromise;
   questions: (args?: {
     where?: QuestionWhereInput;
@@ -237,6 +257,22 @@ export interface Prisma {
   }) => LoginLogPromise;
   deleteLoginLog: (where: LoginLogWhereUniqueInput) => LoginLogPromise;
   deleteManyLoginLogs: (where?: LoginLogWhereInput) => BatchPayloadPromise;
+  createMainText: (data: MainTextCreateInput) => MainTextPromise;
+  updateMainText: (args: {
+    data: MainTextUpdateInput;
+    where: MainTextWhereUniqueInput;
+  }) => MainTextPromise;
+  updateManyMainTexts: (args: {
+    data: MainTextUpdateManyMutationInput;
+    where?: MainTextWhereInput;
+  }) => BatchPayloadPromise;
+  upsertMainText: (args: {
+    where: MainTextWhereUniqueInput;
+    create: MainTextCreateInput;
+    update: MainTextUpdateInput;
+  }) => MainTextPromise;
+  deleteMainText: (where: MainTextWhereUniqueInput) => MainTextPromise;
+  deleteManyMainTexts: (where?: MainTextWhereInput) => BatchPayloadPromise;
   createQuestion: (data: QuestionCreateInput) => QuestionPromise;
   updateQuestion: (args: {
     data: QuestionUpdateInput;
@@ -319,6 +355,9 @@ export interface Subscription {
   loginLog: (
     where?: LoginLogSubscriptionWhereInput
   ) => LoginLogSubscriptionPayloadSubscription;
+  mainText: (
+    where?: MainTextSubscriptionWhereInput
+  ) => MainTextSubscriptionPayloadSubscription;
   question: (
     where?: QuestionSubscriptionWhereInput
   ) => QuestionSubscriptionPayloadSubscription;
@@ -364,6 +403,16 @@ export type LoginLogOrderByInput =
   | "id_DESC"
   | "username_ASC"
   | "username_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type MainTextOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "text_ASC"
+  | "text_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -717,6 +766,60 @@ export interface LoginLogWhereInput {
   NOT?: Maybe<LoginLogWhereInput[] | LoginLogWhereInput>;
 }
 
+export type MainTextWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface MainTextWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  text?: Maybe<String>;
+  text_not?: Maybe<String>;
+  text_in?: Maybe<String[] | String>;
+  text_not_in?: Maybe<String[] | String>;
+  text_lt?: Maybe<String>;
+  text_lte?: Maybe<String>;
+  text_gt?: Maybe<String>;
+  text_gte?: Maybe<String>;
+  text_contains?: Maybe<String>;
+  text_not_contains?: Maybe<String>;
+  text_starts_with?: Maybe<String>;
+  text_not_starts_with?: Maybe<String>;
+  text_ends_with?: Maybe<String>;
+  text_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<MainTextWhereInput[] | MainTextWhereInput>;
+  OR?: Maybe<MainTextWhereInput[] | MainTextWhereInput>;
+  NOT?: Maybe<MainTextWhereInput[] | MainTextWhereInput>;
+}
+
 export type QuestionWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -915,6 +1018,19 @@ export interface LoginLogUpdateManyMutationInput {
   username?: Maybe<String>;
 }
 
+export interface MainTextCreateInput {
+  id?: Maybe<ID_Input>;
+  text: String;
+}
+
+export interface MainTextUpdateInput {
+  text?: Maybe<String>;
+}
+
+export interface MainTextUpdateManyMutationInput {
+  text?: Maybe<String>;
+}
+
 export interface QuestionUpdateInput {
   round?: Maybe<Int>;
   quetionTitle?: Maybe<String>;
@@ -1015,6 +1131,21 @@ export interface LoginLogSubscriptionWhereInput {
   OR?: Maybe<LoginLogSubscriptionWhereInput[] | LoginLogSubscriptionWhereInput>;
   NOT?: Maybe<
     LoginLogSubscriptionWhereInput[] | LoginLogSubscriptionWhereInput
+  >;
+}
+
+export interface MainTextSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<MainTextWhereInput>;
+  AND?: Maybe<
+    MainTextSubscriptionWhereInput[] | MainTextSubscriptionWhereInput
+  >;
+  OR?: Maybe<MainTextSubscriptionWhereInput[] | MainTextSubscriptionWhereInput>;
+  NOT?: Maybe<
+    MainTextSubscriptionWhereInput[] | MainTextSubscriptionWhereInput
   >;
 }
 
@@ -1455,6 +1586,94 @@ export interface AggregateLoginLogPromise
 
 export interface AggregateLoginLogSubscription
   extends Promise<AsyncIterator<AggregateLoginLog>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface MainText {
+  id: ID_Output;
+  text: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface MainTextPromise extends Promise<MainText>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  text: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface MainTextSubscription
+  extends Promise<AsyncIterator<MainText>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  text: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface MainTextNullablePromise
+  extends Promise<MainText | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  text: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface MainTextConnection {
+  pageInfo: PageInfo;
+  edges: MainTextEdge[];
+}
+
+export interface MainTextConnectionPromise
+  extends Promise<MainTextConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<MainTextEdge>>() => T;
+  aggregate: <T = AggregateMainTextPromise>() => T;
+}
+
+export interface MainTextConnectionSubscription
+  extends Promise<AsyncIterator<MainTextConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<MainTextEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateMainTextSubscription>() => T;
+}
+
+export interface MainTextEdge {
+  node: MainText;
+  cursor: String;
+}
+
+export interface MainTextEdgePromise
+  extends Promise<MainTextEdge>,
+    Fragmentable {
+  node: <T = MainTextPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface MainTextEdgeSubscription
+  extends Promise<AsyncIterator<MainTextEdge>>,
+    Fragmentable {
+  node: <T = MainTextSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateMainText {
+  count: Int;
+}
+
+export interface AggregateMainTextPromise
+  extends Promise<AggregateMainText>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateMainTextSubscription
+  extends Promise<AsyncIterator<AggregateMainText>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -1900,6 +2119,56 @@ export interface LoginLogPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
+export interface MainTextSubscriptionPayload {
+  mutation: MutationType;
+  node: MainText;
+  updatedFields: String[];
+  previousValues: MainTextPreviousValues;
+}
+
+export interface MainTextSubscriptionPayloadPromise
+  extends Promise<MainTextSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = MainTextPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = MainTextPreviousValuesPromise>() => T;
+}
+
+export interface MainTextSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<MainTextSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = MainTextSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = MainTextPreviousValuesSubscription>() => T;
+}
+
+export interface MainTextPreviousValues {
+  id: ID_Output;
+  text: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface MainTextPreviousValuesPromise
+  extends Promise<MainTextPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  text: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface MainTextPreviousValuesSubscription
+  extends Promise<AsyncIterator<MainTextPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  text: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
 export interface QuestionSubscriptionPayload {
   mutation: MutationType;
   node: Question;
@@ -2176,6 +2445,10 @@ export const models: Model[] = [
   },
   {
     name: "LoginLog",
+    embedded: false
+  },
+  {
+    name: "MainText",
     embedded: false
   }
 ];

@@ -51,3 +51,10 @@ type LoginLog {
   createdAt: String!
   updatedAt: String!
 }
+
+type MainText {
+  id: ID!
+  text: String!
+  createdAt: String!
+  updatedAt: String!
+}
