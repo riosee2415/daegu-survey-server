@@ -5,12 +5,32 @@ export default {
     loginHandler: async (_, args) => {
       const { name, mobileNumber } = args;
 
-      return await prisma.users({
+      const result = await prisma.users({
         where: {
           username: name,
           mobileNumber: mobileNumber,
         },
       });
+
+      return result;
+    },
+
+    loginLog: async (_, args) => {
+      return await prisma.loginLogs({
+        orderBy: "createdAt_DESC",
+      });
+    },
+  },
+
+  Mutation: {
+    addLoginLog: async (_, args) => {
+      const { username } = args;
+
+      await prisma.createLoginLog({
+        username,
+      });
+
+      return true;
     },
   },
 };
