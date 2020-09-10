@@ -66,7 +66,6 @@ export default {
             });
 
             let sum = 0;
-
             await Promise.all(
               evaluationResult.map((data, idx) => {
                 sum += parseInt(evaluationResult[idx].score);
@@ -76,8 +75,9 @@ export default {
             const length = evaluationResult.length;
             const avgData = {
               questionTitle: data.quetionTitle,
-              value: (sum / length).toFixed(1),
-              percent: Math.floor((sum / length / 10) * 100),
+              value: sum / length ? (sum / length).toFixed(1) : "0.0",
+              percent:
+                sum / length / 10 ? Math.floor((sum / length / 10) * 100) : 0,
               isExpert: false,
             };
             avgDatum.push(avgData);
@@ -99,7 +99,6 @@ export default {
             });
 
             let sum = 0;
-
             await Promise.all(
               evaluationResult.map((data, idx) => {
                 sum += parseInt(evaluationResult[idx].score);
@@ -109,13 +108,16 @@ export default {
             const length = evaluationResult.length;
             const avgData = {
               questionTitle: data.quetionTitle,
-              value: (sum / length).toFixed(1),
-              percent: Math.floor((sum / length / 100) * 100),
+              value: sum / length ? (sum / length).toFixed(1) : "0.0",
+              percent:
+                sum / length / 100 ? Math.floor((sum / length / 100) * 100) : 0,
               isExpert: true,
             };
             expertAvgDatum.push(avgData);
           })
         );
+        console.log(avgDatum);
+        console.log(expertAvgDatum);
 
         await Promise.all(
           avgDatum.map((data, idx) => {
