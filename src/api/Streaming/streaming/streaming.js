@@ -33,8 +33,6 @@ export default {
           },
         });
 
-        console.log(result);
-
         return true;
       } catch (e) {
         console.log(e);
