@@ -156,5 +156,20 @@ export default {
         return false;
       }
     },
+
+    deleteEvaluation: async (_, args) => {
+      const { id } = args;
+
+      try {
+        const result = await prisma.deleteEvaluation({
+          id,
+        });
+
+        return true;
+      } catch (e) {
+        console.log(e);
+        return false;
+      }
+    },
   },
 };
