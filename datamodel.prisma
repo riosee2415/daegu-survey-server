@@ -45,3 +45,10 @@ type Starting {
   id: ID! @id
   isStart: Boolean!
 }
+
+type LoginLog {
+  id: ID! @id
+  username: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}

@@ -1,3 +1,8 @@
 type Query {
   loginHandler(name: String!, mobileNumber: String!): [User!]!
+  loginLog: [LoginLog!]!
+}
+
+type Mutation {
+  addLoginLog(username: String!): Boolean!
 }

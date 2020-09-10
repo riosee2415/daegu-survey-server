@@ -11,8 +11,6 @@ export default {
     modifyStarting: async (_, args) => {
       const { status } = args;
 
-      console.log(status);
-
       try {
         await prisma.updateStarting({
           where: {

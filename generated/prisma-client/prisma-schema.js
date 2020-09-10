@@ -108,6 +108,10 @@ type AggregateEvaluation {
   count: Int!
 }
 
+type AggregateLoginLog {
+  count: Int!
+}
+
 type AggregateQuestion {
   count: Int!
 }
@@ -274,6 +278,127 @@ input EvaluationWhereUniqueInput {
   id: ID
 }
 
+type LoginLog {
+  id: ID!
+  username: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type LoginLogConnection {
+  pageInfo: PageInfo!
+  edges: [LoginLogEdge]!
+  aggregate: AggregateLoginLog!
+}
+
+input LoginLogCreateInput {
+  id: ID
+  username: String!
+}
+
+type LoginLogEdge {
+  node: LoginLog!
+  cursor: String!
+}
+
+enum LoginLogOrderByInput {
+  id_ASC
+  id_DESC
+  username_ASC
+  username_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type LoginLogPreviousValues {
+  id: ID!
+  username: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type LoginLogSubscriptionPayload {
+  mutation: MutationType!
+  node: LoginLog
+  updatedFields: [String!]
+  previousValues: LoginLogPreviousValues
+}
+
+input LoginLogSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: LoginLogWhereInput
+  AND: [LoginLogSubscriptionWhereInput!]
+  OR: [LoginLogSubscriptionWhereInput!]
+  NOT: [LoginLogSubscriptionWhereInput!]
+}
+
+input LoginLogUpdateInput {
+  username: String
+}
+
+input LoginLogUpdateManyMutationInput {
+  username: String
+}
+
+input LoginLogWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  username: String
+  username_not: String
+  username_in: [String!]
+  username_not_in: [String!]
+  username_lt: String
+  username_lte: String
+  username_gt: String
+  username_gte: String
+  username_contains: String
+  username_not_contains: String
+  username_starts_with: String
+  username_not_starts_with: String
+  username_ends_with: String
+  username_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [LoginLogWhereInput!]
+  OR: [LoginLogWhereInput!]
+  NOT: [LoginLogWhereInput!]
+}
+
+input LoginLogWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
@@ -289,6 +414,12 @@ type Mutation {
   upsertEvaluation(where: EvaluationWhereUniqueInput!, create: EvaluationCreateInput!, update: EvaluationUpdateInput!): Evaluation!
   deleteEvaluation(where: EvaluationWhereUniqueInput!): Evaluation
   deleteManyEvaluations(where: EvaluationWhereInput): BatchPayload!
+  createLoginLog(data: LoginLogCreateInput!): LoginLog!
+  updateLoginLog(data: LoginLogUpdateInput!, where: LoginLogWhereUniqueInput!): LoginLog
+  updateManyLoginLogs(data: LoginLogUpdateManyMutationInput!, where: LoginLogWhereInput): BatchPayload!
+  upsertLoginLog(where: LoginLogWhereUniqueInput!, create: LoginLogCreateInput!, update: LoginLogUpdateInput!): LoginLog!
+  deleteLoginLog(where: LoginLogWhereUniqueInput!): LoginLog
+  deleteManyLoginLogs(where: LoginLogWhereInput): BatchPayload!
   createQuestion(data: QuestionCreateInput!): Question!
   updateQuestion(data: QuestionUpdateInput!, where: QuestionWhereUniqueInput!): Question
   updateManyQuestions(data: QuestionUpdateManyMutationInput!, where: QuestionWhereInput): BatchPayload!
@@ -339,6 +470,9 @@ type Query {
   evaluation(where: EvaluationWhereUniqueInput!): Evaluation
   evaluations(where: EvaluationWhereInput, orderBy: EvaluationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Evaluation]!
   evaluationsConnection(where: EvaluationWhereInput, orderBy: EvaluationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EvaluationConnection!
+  loginLog(where: LoginLogWhereUniqueInput!): LoginLog
+  loginLogs(where: LoginLogWhereInput, orderBy: LoginLogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LoginLog]!
+  loginLogsConnection(where: LoginLogWhereInput, orderBy: LoginLogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LoginLogConnection!
   question(where: QuestionWhereUniqueInput!): Question
   questions(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Question]!
   questionsConnection(where: QuestionWhereInput, orderBy: QuestionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): QuestionConnection!
@@ -737,6 +871,7 @@ input StreamingWhereUniqueInput {
 type Subscription {
   acceptRecord(where: AcceptRecordSubscriptionWhereInput): AcceptRecordSubscriptionPayload
   evaluation(where: EvaluationSubscriptionWhereInput): EvaluationSubscriptionPayload
+  loginLog(where: LoginLogSubscriptionWhereInput): LoginLogSubscriptionPayload
   question(where: QuestionSubscriptionWhereInput): QuestionSubscriptionPayload
   starting(where: StartingSubscriptionWhereInput): StartingSubscriptionPayload
   streaming(where: StreamingSubscriptionWhereInput): StreamingSubscriptionPayload

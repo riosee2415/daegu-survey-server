@@ -13,11 +13,10 @@ export default {
           },
         });
 
-        await prisma.deleteManyEvaluations({
-          where: {
-            user: { id },
-          },
+        const deleteResult = await prisma.deleteEvaluation({
+          id: "ckes61ijbzztr0a26msc9nuel",
         });
+
         return true;
       } catch (e) {
         console.log(e);
