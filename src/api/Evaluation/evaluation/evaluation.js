@@ -116,8 +116,6 @@ export default {
             expertAvgDatum.push(avgData);
           })
         );
-        console.log(avgDatum);
-        console.log(expertAvgDatum);
 
         await Promise.all(
           avgDatum.map((data, idx) => {

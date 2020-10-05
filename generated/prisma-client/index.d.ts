@@ -17,6 +17,7 @@ export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
   acceptRecord: (where?: AcceptRecordWhereInput) => Promise<boolean>;
+  adminUser: (where?: AdminUserWhereInput) => Promise<boolean>;
   evaluation: (where?: EvaluationWhereInput) => Promise<boolean>;
   loginLog: (where?: LoginLogWhereInput) => Promise<boolean>;
   mainText: (where?: MainTextWhereInput) => Promise<boolean>;
@@ -66,6 +67,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => AcceptRecordConnectionPromise;
+  adminUser: (where: AdminUserWhereUniqueInput) => AdminUserNullablePromise;
+  adminUsers: (args?: {
+    where?: AdminUserWhereInput;
+    orderBy?: AdminUserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<AdminUser>;
+  adminUsersConnection: (args?: {
+    where?: AdminUserWhereInput;
+    orderBy?: AdminUserOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => AdminUserConnectionPromise;
   evaluation: (where: EvaluationWhereUniqueInput) => EvaluationNullablePromise;
   evaluations: (args?: {
     where?: EvaluationWhereInput;
@@ -225,6 +245,22 @@ export interface Prisma {
   deleteManyAcceptRecords: (
     where?: AcceptRecordWhereInput
   ) => BatchPayloadPromise;
+  createAdminUser: (data: AdminUserCreateInput) => AdminUserPromise;
+  updateAdminUser: (args: {
+    data: AdminUserUpdateInput;
+    where: AdminUserWhereUniqueInput;
+  }) => AdminUserPromise;
+  updateManyAdminUsers: (args: {
+    data: AdminUserUpdateManyMutationInput;
+    where?: AdminUserWhereInput;
+  }) => BatchPayloadPromise;
+  upsertAdminUser: (args: {
+    where: AdminUserWhereUniqueInput;
+    create: AdminUserCreateInput;
+    update: AdminUserUpdateInput;
+  }) => AdminUserPromise;
+  deleteAdminUser: (where: AdminUserWhereUniqueInput) => AdminUserPromise;
+  deleteManyAdminUsers: (where?: AdminUserWhereInput) => BatchPayloadPromise;
   createEvaluation: (data: EvaluationCreateInput) => EvaluationPromise;
   updateEvaluation: (args: {
     data: EvaluationUpdateInput;
@@ -349,6 +385,9 @@ export interface Subscription {
   acceptRecord: (
     where?: AcceptRecordSubscriptionWhereInput
   ) => AcceptRecordSubscriptionPayloadSubscription;
+  adminUser: (
+    where?: AdminUserSubscriptionWhereInput
+  ) => AdminUserSubscriptionPayloadSubscription;
   evaluation: (
     where?: EvaluationSubscriptionWhereInput
   ) => EvaluationSubscriptionPayloadSubscription;
@@ -385,6 +424,18 @@ export type AcceptRecordOrderByInput =
   | "id_DESC"
   | "date_ASC"
   | "date_DESC";
+
+export type AdminUserOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "userId_ASC"
+  | "userId_DESC"
+  | "password_ASC"
+  | "password_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
 
 export type EvaluationOrderByInput =
   | "id_ASC"
@@ -504,6 +555,74 @@ export interface AcceptRecordWhereInput {
   AND?: Maybe<AcceptRecordWhereInput[] | AcceptRecordWhereInput>;
   OR?: Maybe<AcceptRecordWhereInput[] | AcceptRecordWhereInput>;
   NOT?: Maybe<AcceptRecordWhereInput[] | AcceptRecordWhereInput>;
+}
+
+export type AdminUserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface AdminUserWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  userId?: Maybe<String>;
+  userId_not?: Maybe<String>;
+  userId_in?: Maybe<String[] | String>;
+  userId_not_in?: Maybe<String[] | String>;
+  userId_lt?: Maybe<String>;
+  userId_lte?: Maybe<String>;
+  userId_gt?: Maybe<String>;
+  userId_gte?: Maybe<String>;
+  userId_contains?: Maybe<String>;
+  userId_not_contains?: Maybe<String>;
+  userId_starts_with?: Maybe<String>;
+  userId_not_starts_with?: Maybe<String>;
+  userId_ends_with?: Maybe<String>;
+  userId_not_ends_with?: Maybe<String>;
+  password?: Maybe<String>;
+  password_not?: Maybe<String>;
+  password_in?: Maybe<String[] | String>;
+  password_not_in?: Maybe<String[] | String>;
+  password_lt?: Maybe<String>;
+  password_lte?: Maybe<String>;
+  password_gt?: Maybe<String>;
+  password_gte?: Maybe<String>;
+  password_contains?: Maybe<String>;
+  password_not_contains?: Maybe<String>;
+  password_starts_with?: Maybe<String>;
+  password_not_starts_with?: Maybe<String>;
+  password_ends_with?: Maybe<String>;
+  password_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<AdminUserWhereInput[] | AdminUserWhereInput>;
+  OR?: Maybe<AdminUserWhereInput[] | AdminUserWhereInput>;
+  NOT?: Maybe<AdminUserWhereInput[] | AdminUserWhereInput>;
 }
 
 export type EvaluationWhereUniqueInput = AtLeastOne<{
@@ -921,6 +1040,22 @@ export interface AcceptRecordUpdateManyMutationInput {
   date?: Maybe<String>;
 }
 
+export interface AdminUserCreateInput {
+  id?: Maybe<ID_Input>;
+  userId: String;
+  password: String;
+}
+
+export interface AdminUserUpdateInput {
+  userId?: Maybe<String>;
+  password?: Maybe<String>;
+}
+
+export interface AdminUserUpdateManyMutationInput {
+  userId?: Maybe<String>;
+  password?: Maybe<String>;
+}
+
 export interface EvaluationCreateInput {
   id?: Maybe<ID_Input>;
   user: UserCreateOneInput;
@@ -1099,6 +1234,23 @@ export interface AcceptRecordSubscriptionWhereInput {
   >;
   NOT?: Maybe<
     AcceptRecordSubscriptionWhereInput[] | AcceptRecordSubscriptionWhereInput
+  >;
+}
+
+export interface AdminUserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<AdminUserWhereInput>;
+  AND?: Maybe<
+    AdminUserSubscriptionWhereInput[] | AdminUserSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    AdminUserSubscriptionWhereInput[] | AdminUserSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    AdminUserSubscriptionWhereInput[] | AdminUserSubscriptionWhereInput
   >;
 }
 
@@ -1312,6 +1464,98 @@ export interface AggregateAcceptRecordPromise
 
 export interface AggregateAcceptRecordSubscription
   extends Promise<AsyncIterator<AggregateAcceptRecord>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface AdminUser {
+  id: ID_Output;
+  userId: String;
+  password: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface AdminUserPromise extends Promise<AdminUser>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  userId: () => Promise<String>;
+  password: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface AdminUserSubscription
+  extends Promise<AsyncIterator<AdminUser>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  userId: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface AdminUserNullablePromise
+  extends Promise<AdminUser | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  userId: () => Promise<String>;
+  password: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface AdminUserConnection {
+  pageInfo: PageInfo;
+  edges: AdminUserEdge[];
+}
+
+export interface AdminUserConnectionPromise
+  extends Promise<AdminUserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<AdminUserEdge>>() => T;
+  aggregate: <T = AggregateAdminUserPromise>() => T;
+}
+
+export interface AdminUserConnectionSubscription
+  extends Promise<AsyncIterator<AdminUserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<AdminUserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateAdminUserSubscription>() => T;
+}
+
+export interface AdminUserEdge {
+  node: AdminUser;
+  cursor: String;
+}
+
+export interface AdminUserEdgePromise
+  extends Promise<AdminUserEdge>,
+    Fragmentable {
+  node: <T = AdminUserPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface AdminUserEdgeSubscription
+  extends Promise<AsyncIterator<AdminUserEdge>>,
+    Fragmentable {
+  node: <T = AdminUserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateAdminUser {
+  count: Int;
+}
+
+export interface AggregateAdminUserPromise
+  extends Promise<AggregateAdminUser>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateAdminUserSubscription
+  extends Promise<AsyncIterator<AggregateAdminUser>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -2016,6 +2260,59 @@ export interface AcceptRecordPreviousValuesSubscription
   date: () => Promise<AsyncIterator<String>>;
 }
 
+export interface AdminUserSubscriptionPayload {
+  mutation: MutationType;
+  node: AdminUser;
+  updatedFields: String[];
+  previousValues: AdminUserPreviousValues;
+}
+
+export interface AdminUserSubscriptionPayloadPromise
+  extends Promise<AdminUserSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = AdminUserPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = AdminUserPreviousValuesPromise>() => T;
+}
+
+export interface AdminUserSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<AdminUserSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = AdminUserSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = AdminUserPreviousValuesSubscription>() => T;
+}
+
+export interface AdminUserPreviousValues {
+  id: ID_Output;
+  userId: String;
+  password: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface AdminUserPreviousValuesPromise
+  extends Promise<AdminUserPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  userId: () => Promise<String>;
+  password: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface AdminUserPreviousValuesSubscription
+  extends Promise<AsyncIterator<AdminUserPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  userId: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
 export interface EvaluationSubscriptionPayload {
   mutation: MutationType;
   node: Evaluation;
@@ -2421,6 +2718,10 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "AdminUser",
     embedded: false
   },
   {

@@ -32,5 +32,15 @@ export default {
 
       return true;
     },
+
+    deleteLoginLogAll: async (_, args) => {
+      try {
+        await prisma.deleteManyLoginLogs({ id_contains: "" });
+        return true;
+      } catch (e) {
+        console.log(e);
+        return false;
+      }
+    },
   },
 };

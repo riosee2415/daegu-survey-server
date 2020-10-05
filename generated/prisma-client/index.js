@@ -9,6 +9,10 @@ var models = [
     embedded: false
   },
   {
+    name: "AdminUser",
+    embedded: false
+  },
+  {
     name: "AcceptRecord",
     embedded: false
   },

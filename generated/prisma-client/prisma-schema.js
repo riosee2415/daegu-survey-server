@@ -100,7 +100,153 @@ input AcceptRecordWhereUniqueInput {
   id: ID
 }
 
+type AdminUser {
+  id: ID!
+  userId: String!
+  password: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type AdminUserConnection {
+  pageInfo: PageInfo!
+  edges: [AdminUserEdge]!
+  aggregate: AggregateAdminUser!
+}
+
+input AdminUserCreateInput {
+  id: ID
+  userId: String!
+  password: String!
+}
+
+type AdminUserEdge {
+  node: AdminUser!
+  cursor: String!
+}
+
+enum AdminUserOrderByInput {
+  id_ASC
+  id_DESC
+  userId_ASC
+  userId_DESC
+  password_ASC
+  password_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type AdminUserPreviousValues {
+  id: ID!
+  userId: String!
+  password: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type AdminUserSubscriptionPayload {
+  mutation: MutationType!
+  node: AdminUser
+  updatedFields: [String!]
+  previousValues: AdminUserPreviousValues
+}
+
+input AdminUserSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: AdminUserWhereInput
+  AND: [AdminUserSubscriptionWhereInput!]
+  OR: [AdminUserSubscriptionWhereInput!]
+  NOT: [AdminUserSubscriptionWhereInput!]
+}
+
+input AdminUserUpdateInput {
+  userId: String
+  password: String
+}
+
+input AdminUserUpdateManyMutationInput {
+  userId: String
+  password: String
+}
+
+input AdminUserWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  userId: String
+  userId_not: String
+  userId_in: [String!]
+  userId_not_in: [String!]
+  userId_lt: String
+  userId_lte: String
+  userId_gt: String
+  userId_gte: String
+  userId_contains: String
+  userId_not_contains: String
+  userId_starts_with: String
+  userId_not_starts_with: String
+  userId_ends_with: String
+  userId_not_ends_with: String
+  password: String
+  password_not: String
+  password_in: [String!]
+  password_not_in: [String!]
+  password_lt: String
+  password_lte: String
+  password_gt: String
+  password_gte: String
+  password_contains: String
+  password_not_contains: String
+  password_starts_with: String
+  password_not_starts_with: String
+  password_ends_with: String
+  password_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [AdminUserWhereInput!]
+  OR: [AdminUserWhereInput!]
+  NOT: [AdminUserWhereInput!]
+}
+
+input AdminUserWhereUniqueInput {
+  id: ID
+}
+
 type AggregateAcceptRecord {
+  count: Int!
+}
+
+type AggregateAdminUser {
   count: Int!
 }
 
@@ -533,6 +679,12 @@ type Mutation {
   upsertAcceptRecord(where: AcceptRecordWhereUniqueInput!, create: AcceptRecordCreateInput!, update: AcceptRecordUpdateInput!): AcceptRecord!
   deleteAcceptRecord(where: AcceptRecordWhereUniqueInput!): AcceptRecord
   deleteManyAcceptRecords(where: AcceptRecordWhereInput): BatchPayload!
+  createAdminUser(data: AdminUserCreateInput!): AdminUser!
+  updateAdminUser(data: AdminUserUpdateInput!, where: AdminUserWhereUniqueInput!): AdminUser
+  updateManyAdminUsers(data: AdminUserUpdateManyMutationInput!, where: AdminUserWhereInput): BatchPayload!
+  upsertAdminUser(where: AdminUserWhereUniqueInput!, create: AdminUserCreateInput!, update: AdminUserUpdateInput!): AdminUser!
+  deleteAdminUser(where: AdminUserWhereUniqueInput!): AdminUser
+  deleteManyAdminUsers(where: AdminUserWhereInput): BatchPayload!
   createEvaluation(data: EvaluationCreateInput!): Evaluation!
   updateEvaluation(data: EvaluationUpdateInput!, where: EvaluationWhereUniqueInput!): Evaluation
   updateManyEvaluations(data: EvaluationUpdateManyMutationInput!, where: EvaluationWhereInput): BatchPayload!
@@ -598,6 +750,9 @@ type Query {
   acceptRecord(where: AcceptRecordWhereUniqueInput!): AcceptRecord
   acceptRecords(where: AcceptRecordWhereInput, orderBy: AcceptRecordOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AcceptRecord]!
   acceptRecordsConnection(where: AcceptRecordWhereInput, orderBy: AcceptRecordOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AcceptRecordConnection!
+  adminUser(where: AdminUserWhereUniqueInput!): AdminUser
+  adminUsers(where: AdminUserWhereInput, orderBy: AdminUserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [AdminUser]!
+  adminUsersConnection(where: AdminUserWhereInput, orderBy: AdminUserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AdminUserConnection!
   evaluation(where: EvaluationWhereUniqueInput!): Evaluation
   evaluations(where: EvaluationWhereInput, orderBy: EvaluationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Evaluation]!
   evaluationsConnection(where: EvaluationWhereInput, orderBy: EvaluationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EvaluationConnection!
@@ -1004,6 +1159,7 @@ input StreamingWhereUniqueInput {
 
 type Subscription {
   acceptRecord(where: AcceptRecordSubscriptionWhereInput): AcceptRecordSubscriptionPayload
+  adminUser(where: AdminUserSubscriptionWhereInput): AdminUserSubscriptionPayload
   evaluation(where: EvaluationSubscriptionWhereInput): EvaluationSubscriptionPayload
   loginLog(where: LoginLogSubscriptionWhereInput): LoginLogSubscriptionPayload
   mainText(where: MainTextSubscriptionWhereInput): MainTextSubscriptionPayload

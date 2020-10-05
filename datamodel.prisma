@@ -9,6 +9,14 @@ type User {
   updatedAt: DateTime! @updatedAt
 }
 
+type AdminUser {
+  id: ID! @id
+  userId: String!
+  password: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
 type AcceptRecord {
   id: ID! @id
   date : String!
