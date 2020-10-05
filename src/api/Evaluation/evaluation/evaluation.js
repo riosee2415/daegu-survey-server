@@ -51,6 +51,7 @@ export default {
           orderBy: "sort_ASC",
         });
 
+        let totalSum = 0;
         await Promise.all(
           questionResult.map(async (data) => {
             const evaluationResult = await prisma.evaluations({
@@ -69,21 +70,26 @@ export default {
             await Promise.all(
               evaluationResult.map((data, idx) => {
                 sum += parseInt(evaluationResult[idx].score);
+                totalSum += parseInt(evaluationResult[idx].score);
               })
             );
 
             const length = evaluationResult.length;
+            const avg = sum / length ? (sum / length).toFixed(2) : "0.00";
+
             const avgData = {
               questionTitle: data.quetionTitle,
-              value: sum / length ? (sum / length).toFixed(1) : "0.0",
-              percent:
-                sum / length / 10 ? Math.floor((sum / length / 10) * 100) : 0,
+              totalSum: totalSum,
+              sum: sum,
+              avg: avg,
+              score: (avg * 0.4).toFixed(2),
               isExpert: false,
             };
             avgDatum.push(avgData);
           })
         );
 
+        totalSum = 0;
         await Promise.all(
           questionResult.map(async (data) => {
             const evaluationResult = await prisma.evaluations({
@@ -102,15 +108,19 @@ export default {
             await Promise.all(
               evaluationResult.map((data, idx) => {
                 sum += parseInt(evaluationResult[idx].score);
+                totalSum += parseInt(evaluationResult[idx].score);
               })
             );
 
             const length = evaluationResult.length;
+            const avg = sum / length ? (sum / length).toFixed(2) : "0.00";
+
             const avgData = {
               questionTitle: data.quetionTitle,
-              value: sum / length ? (sum / length).toFixed(1) : "0.0",
-              percent:
-                sum / length / 100 ? Math.floor((sum / length / 100) * 100) : 0,
+              totalSum: totalSum,
+              sum: sum,
+              avg: avg,
+              score: (avg * 0.6).toFixed(2),
               isExpert: true,
             };
             expertAvgDatum.push(avgData);

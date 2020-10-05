@@ -1,7 +1,9 @@
 type EvaluationAvg {
   questionTitle: String!
-  value: String!
-  percent: Int!
+  totalSum: Int!
+  sum: Int!
+  avg: String!
+  score: String!
   isExpert: Boolean!
 }
 
