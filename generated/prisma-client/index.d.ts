@@ -510,6 +510,8 @@ export type UserOrderByInput =
   | "mobileNumber_DESC"
   | "isExpert_ASC"
   | "isExpert_DESC"
+  | "isManager_ASC"
+  | "isManager_DESC"
   | "isComplete_ASC"
   | "isComplete_DESC"
   | "createdAt_ASC"
@@ -742,6 +744,8 @@ export interface UserWhereInput {
   mobileNumber_not_ends_with?: Maybe<String>;
   isExpert?: Maybe<Boolean>;
   isExpert_not?: Maybe<Boolean>;
+  isManager?: Maybe<Boolean>;
+  isManager_not?: Maybe<Boolean>;
   isComplete?: Maybe<Boolean>;
   isComplete_not?: Maybe<Boolean>;
   createdAt?: Maybe<DateTimeInput>;
@@ -1075,6 +1079,7 @@ export interface UserCreateInput {
   username: String;
   mobileNumber: String;
   isExpert?: Maybe<Boolean>;
+  isManager?: Maybe<Boolean>;
   isComplete?: Maybe<Boolean>;
 }
 
@@ -1109,6 +1114,7 @@ export interface UserUpdateDataInput {
   username?: Maybe<String>;
   mobileNumber?: Maybe<String>;
   isExpert?: Maybe<Boolean>;
+  isManager?: Maybe<Boolean>;
   isComplete?: Maybe<Boolean>;
 }
 
@@ -1209,6 +1215,7 @@ export interface UserUpdateInput {
   username?: Maybe<String>;
   mobileNumber?: Maybe<String>;
   isExpert?: Maybe<Boolean>;
+  isManager?: Maybe<Boolean>;
   isComplete?: Maybe<Boolean>;
 }
 
@@ -1217,6 +1224,7 @@ export interface UserUpdateManyMutationInput {
   username?: Maybe<String>;
   mobileNumber?: Maybe<String>;
   isExpert?: Maybe<Boolean>;
+  isManager?: Maybe<Boolean>;
   isComplete?: Maybe<Boolean>;
 }
 
@@ -1608,6 +1616,7 @@ export interface User {
   username: String;
   mobileNumber: String;
   isExpert: Boolean;
+  isManager: Boolean;
   isComplete: Boolean;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -1619,6 +1628,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   username: () => Promise<String>;
   mobileNumber: () => Promise<String>;
   isExpert: () => Promise<Boolean>;
+  isManager: () => Promise<Boolean>;
   isComplete: () => Promise<Boolean>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -1632,6 +1642,7 @@ export interface UserSubscription
   username: () => Promise<AsyncIterator<String>>;
   mobileNumber: () => Promise<AsyncIterator<String>>;
   isExpert: () => Promise<AsyncIterator<Boolean>>;
+  isManager: () => Promise<AsyncIterator<Boolean>>;
   isComplete: () => Promise<AsyncIterator<Boolean>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -1645,6 +1656,7 @@ export interface UserNullablePromise
   username: () => Promise<String>;
   mobileNumber: () => Promise<String>;
   isExpert: () => Promise<Boolean>;
+  isManager: () => Promise<Boolean>;
   isComplete: () => Promise<Boolean>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -2647,6 +2659,7 @@ export interface UserPreviousValues {
   username: String;
   mobileNumber: String;
   isExpert: Boolean;
+  isManager: Boolean;
   isComplete: Boolean;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -2660,6 +2673,7 @@ export interface UserPreviousValuesPromise
   username: () => Promise<String>;
   mobileNumber: () => Promise<String>;
   isExpert: () => Promise<Boolean>;
+  isManager: () => Promise<Boolean>;
   isComplete: () => Promise<Boolean>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -2673,6 +2687,7 @@ export interface UserPreviousValuesSubscription
   username: () => Promise<AsyncIterator<String>>;
   mobileNumber: () => Promise<AsyncIterator<String>>;
   isExpert: () => Promise<AsyncIterator<Boolean>>;
+  isManager: () => Promise<AsyncIterator<Boolean>>;
   isComplete: () => Promise<AsyncIterator<Boolean>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;

@@ -4,6 +4,7 @@ type User {
   username: String!
   mobileNumber: String!
   isExpert: Boolean!
+  isManager: Boolean!
   isComplete: Boolean
   createdAt: String!
   updatedAt: String!

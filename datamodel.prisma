@@ -4,6 +4,7 @@ type User {
   username: String!
   mobileNumber : String!
   isExpert : Boolean! @default(value : false)
+  isManager : Boolean! @default(value : false)
   isComplete : Boolean! @default(value : false)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt

@@ -5,6 +5,7 @@ type EvaluationAvg {
   avg: String!
   score: String!
   isExpert: Boolean!
+  isManager: Boolean!
 }
 
 type Query {

@@ -1175,6 +1175,7 @@ type User {
   username: String!
   mobileNumber: String!
   isExpert: Boolean!
+  isManager: Boolean!
   isComplete: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -1192,6 +1193,7 @@ input UserCreateInput {
   username: String!
   mobileNumber: String!
   isExpert: Boolean
+  isManager: Boolean
   isComplete: Boolean
 }
 
@@ -1216,6 +1218,8 @@ enum UserOrderByInput {
   mobileNumber_DESC
   isExpert_ASC
   isExpert_DESC
+  isManager_ASC
+  isManager_DESC
   isComplete_ASC
   isComplete_DESC
   createdAt_ASC
@@ -1230,6 +1234,7 @@ type UserPreviousValues {
   username: String!
   mobileNumber: String!
   isExpert: Boolean!
+  isManager: Boolean!
   isComplete: Boolean!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -1258,6 +1263,7 @@ input UserUpdateDataInput {
   username: String
   mobileNumber: String
   isExpert: Boolean
+  isManager: Boolean
   isComplete: Boolean
 }
 
@@ -1266,6 +1272,7 @@ input UserUpdateInput {
   username: String
   mobileNumber: String
   isExpert: Boolean
+  isManager: Boolean
   isComplete: Boolean
 }
 
@@ -1274,6 +1281,7 @@ input UserUpdateManyMutationInput {
   username: String
   mobileNumber: String
   isExpert: Boolean
+  isManager: Boolean
   isComplete: Boolean
 }
 
@@ -1342,6 +1350,8 @@ input UserWhereInput {
   mobileNumber_not_ends_with: String
   isExpert: Boolean
   isExpert_not: Boolean
+  isManager: Boolean
+  isManager_not: Boolean
   isComplete: Boolean
   isComplete_not: Boolean
   createdAt: DateTime

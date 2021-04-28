@@ -40,6 +40,7 @@ export default {
       const { round } = args;
 
       const avgDatum = [];
+      const managerAvgDatum = [];
       const expertAvgDatum = [];
       const allAvgDatum = [];
 
@@ -61,6 +62,7 @@ export default {
                 },
                 user: {
                   isExpert: false,
+                  isManager: false,
                 },
               },
               orderBy: "createdAt_ASC",
@@ -82,8 +84,9 @@ export default {
               totalSum: totalSum,
               sum: sum,
               avg: avg,
-              score: (avg * 0.4).toFixed(2),
+              score: (avg * 0.2).toFixed(2),
               isExpert: false,
+              isManager: false,
             };
             avgDatum.push(avgData);
           })
@@ -98,7 +101,48 @@ export default {
                   id: data.id,
                 },
                 user: {
+                  isExpert: false,
+                  isManager: true,
+                },
+              },
+              orderBy: "createdAt_ASC",
+            });
+
+            let sum = 0;
+            await Promise.all(
+              evaluationResult.map((data, idx) => {
+                sum += parseInt(evaluationResult[idx].score);
+                totalSum += parseInt(evaluationResult[idx].score);
+              })
+            );
+
+            const length = evaluationResult.length;
+            const avg = sum / length ? (sum / length).toFixed(2) : "0.00";
+
+            const avgData = {
+              questionTitle: data.quetionTitle,
+              totalSum: totalSum,
+              sum: sum,
+              avg: avg,
+              score: (avg * 0.2).toFixed(2),
+              isExpert: false,
+              isManager: true,
+            };
+            managerAvgDatum.push(avgData);
+          })
+        );
+
+        totalSum = 0;
+        await Promise.all(
+          questionResult.map(async (data) => {
+            const evaluationResult = await prisma.evaluations({
+              where: {
+                question: {
+                  id: data.id,
+                },
+                user: {
                   isExpert: true,
+                  isManager: false,
                 },
               },
               orderBy: "createdAt_ASC",
@@ -122,6 +166,7 @@ export default {
               avg: avg,
               score: (avg * 0.6).toFixed(2),
               isExpert: true,
+              isManager: false,
             };
             expertAvgDatum.push(avgData);
           })
@@ -130,6 +175,7 @@ export default {
         await Promise.all(
           avgDatum.map((data, idx) => {
             allAvgDatum.push(avgDatum[idx]);
+            allAvgDatum.push(managerAvgDatum[idx]);
             allAvgDatum.push(expertAvgDatum[idx]);
           })
         );

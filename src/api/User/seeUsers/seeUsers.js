@@ -2,12 +2,13 @@ import { prisma } from "../../../../generated/prisma-client";
 
 export default {
   Query: {
-    getUserByExpert: async (_, args) => {
-      const { isExpert, round } = args;
+    getUserByType: async (_, args) => {
+      const { isExpert, isManager, round } = args;
 
       const users = await prisma.users({
         where: {
           isExpert,
+          isManager,
           round,
         },
         orderBy: "username_ASC",
@@ -24,6 +25,7 @@ export default {
           round,
         },
         orderBy: "username_ASC",
+        orderBy: "isManager_DESC",
         orderBy: "isExpert_DESC",
       });
 

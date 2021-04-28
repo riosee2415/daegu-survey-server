@@ -1,4 +1,4 @@
 type Query {
-  getUserByExpert(isExpert: Boolean!, round: Int!): [User!]!
+  getUserByType(isExpert: Boolean!, isManager: Boolean!, round: Int!): [User!]!
   getAllUser(round: Int!): [User!]!
 }

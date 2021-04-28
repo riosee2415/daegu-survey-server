@@ -4,5 +4,6 @@ type Mutation {
     mobileNumber: String!
     round: Int!
     isExpert: Boolean!
+    isManager: Boolean!
   ): Boolean!
 }
