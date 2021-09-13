@@ -36,7 +36,7 @@ export default {
       }
     },
 
-    getEvaluationAvg: async (_, args) => {
+    getEvaluationAvg01: async (_, args) => {
       const { round } = args;
 
       const avgDatum = [];
@@ -54,7 +54,7 @@ export default {
 
         let totalSum = 0;
         await Promise.all(
-          questionResult.map(async (data) => {
+          questionResult.slice(0, 5).map(async (data) => {
             const evaluationResult = await prisma.evaluations({
               where: {
                 question: {
@@ -94,7 +94,7 @@ export default {
 
         totalSum = 0;
         await Promise.all(
-          questionResult.map(async (data) => {
+          questionResult.slice(0, 5).map(async (data) => {
             const evaluationResult = await prisma.evaluations({
               where: {
                 question: {
@@ -134,7 +134,158 @@ export default {
 
         totalSum = 0;
         await Promise.all(
-          questionResult.map(async (data) => {
+          questionResult.slice(0, 5).map(async (data) => {
+            const evaluationResult = await prisma.evaluations({
+              where: {
+                question: {
+                  id: data.id,
+                },
+                user: {
+                  isExpert: true,
+                  isManager: false,
+                },
+              },
+              orderBy: "createdAt_ASC",
+            });
+
+            let sum = 0;
+            await Promise.all(
+              evaluationResult.map((data, idx) => {
+                sum += parseInt(evaluationResult[idx].score);
+                totalSum += parseInt(evaluationResult[idx].score);
+              })
+            );
+
+            const length = evaluationResult.length;
+            const avg = sum / length ? (sum / length).toFixed(2) : "0.00";
+
+            const avgData = {
+              questionTitle: data.quetionTitle,
+              totalSum: totalSum,
+              sum: sum,
+              avg: avg,
+              score: (avg * 0.6).toFixed(2),
+              isExpert: true,
+              isManager: false,
+            };
+            expertAvgDatum.push(avgData);
+          })
+        );
+
+        await Promise.all(
+          avgDatum.map((data, idx) => {
+            allAvgDatum.push(avgDatum[idx]);
+            allAvgDatum.push(managerAvgDatum[idx]);
+            allAvgDatum.push(expertAvgDatum[idx]);
+          })
+        );
+
+        return allAvgDatum;
+      } catch (e) {
+        console.log(e);
+        return [];
+      }
+    },
+
+    getEvaluationAvg02: async (_, args) => {
+      const { round } = args;
+
+      const avgDatum = [];
+      const managerAvgDatum = [];
+      const expertAvgDatum = [];
+      const allAvgDatum = [];
+
+      try {
+        const questionResult = await prisma.questions({
+          where: {
+            round,
+          },
+          orderBy: "sort_ASC",
+        });
+
+        let totalSum = 0;
+        await Promise.all(
+          questionResult.slice(5, 10).map(async (data) => {
+            const evaluationResult = await prisma.evaluations({
+              where: {
+                question: {
+                  id: data.id,
+                },
+                user: {
+                  isExpert: false,
+                  isManager: false,
+                },
+              },
+              orderBy: "createdAt_ASC",
+            });
+
+            let sum = 0;
+            await Promise.all(
+              evaluationResult.map((data, idx) => {
+                sum += parseInt(evaluationResult[idx].score);
+                totalSum += parseInt(evaluationResult[idx].score);
+              })
+            );
+
+            const length = evaluationResult.length;
+            const avg = sum / length ? (sum / length).toFixed(2) : "0.00";
+
+            const avgData = {
+              questionTitle: data.quetionTitle,
+              totalSum: totalSum,
+              sum: sum,
+              avg: avg,
+              score: (avg * 0.2).toFixed(2),
+              isExpert: false,
+              isManager: false,
+            };
+            avgDatum.push(avgData);
+          })
+        );
+
+        totalSum = 0;
+        await Promise.all(
+          questionResult.slice(5, 10).map(async (data) => {
+            const evaluationResult = await prisma.evaluations({
+              where: {
+                question: {
+                  id: data.id,
+                },
+                user: {
+                  isExpert: false,
+                  isManager: true,
+                },
+              },
+              orderBy: "createdAt_ASC",
+            });
+
+            let sum = 0;
+            await Promise.all(
+              evaluationResult.map((data, idx) => {
+                sum += parseInt(evaluationResult[idx].score);
+                totalSum += parseInt(evaluationResult[idx].score);
+              })
+            );
+
+            const length = evaluationResult.length;
+            const avg = sum / length ? (sum / length).toFixed(2) : "0.00";
+
+            const avgData = {
+              questionTitle: data.quetionTitle,
+              totalSum: totalSum,
+              sum: sum,
+              avg: avg,
+              score: (avg * 0.2).toFixed(2),
+              isExpert: false,
+              isManager: true,
+            };
+            managerAvgDatum.push(avgData);
+          })
+        );
+
+        totalSum = 0;
+        await Promise.all(
+          questionResult.slice(5, 10).map(async (data) => {
             const evaluationResult = await prisma.evaluations({
               where: {
                 question: {

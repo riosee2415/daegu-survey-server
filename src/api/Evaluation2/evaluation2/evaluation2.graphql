@@ -1,0 +1,12 @@
+type Query {
+  getEvaluationAvg03: [Evaluation2!]!
+}
+
+type Mutation {
+  createEvaluation2(
+    userKey: String
+    score: Int!
+    description: String!
+    sort: Int!
+  ): Boolean!
+}

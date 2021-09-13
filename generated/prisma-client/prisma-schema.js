@@ -254,6 +254,10 @@ type AggregateEvaluation {
   count: Int!
 }
 
+type AggregateEvaluation2 {
+  count: Int!
+}
+
 type AggregateLoginLog {
   count: Int!
 }
@@ -292,6 +296,161 @@ type Evaluation {
   description: String!
   createdAt: DateTime!
   updatedAt: DateTime!
+}
+
+type Evaluation2 {
+  id: ID!
+  user: User!
+  score: Int!
+  description: String!
+  sort: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Evaluation2Connection {
+  pageInfo: PageInfo!
+  edges: [Evaluation2Edge]!
+  aggregate: AggregateEvaluation2!
+}
+
+input Evaluation2CreateInput {
+  id: ID
+  user: UserCreateOneInput!
+  score: Int!
+  description: String!
+  sort: Int!
+}
+
+type Evaluation2Edge {
+  node: Evaluation2!
+  cursor: String!
+}
+
+enum Evaluation2OrderByInput {
+  id_ASC
+  id_DESC
+  score_ASC
+  score_DESC
+  description_ASC
+  description_DESC
+  sort_ASC
+  sort_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type Evaluation2PreviousValues {
+  id: ID!
+  score: Int!
+  description: String!
+  sort: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Evaluation2SubscriptionPayload {
+  mutation: MutationType!
+  node: Evaluation2
+  updatedFields: [String!]
+  previousValues: Evaluation2PreviousValues
+}
+
+input Evaluation2SubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: Evaluation2WhereInput
+  AND: [Evaluation2SubscriptionWhereInput!]
+  OR: [Evaluation2SubscriptionWhereInput!]
+  NOT: [Evaluation2SubscriptionWhereInput!]
+}
+
+input Evaluation2UpdateInput {
+  user: UserUpdateOneRequiredInput
+  score: Int
+  description: String
+  sort: Int
+}
+
+input Evaluation2UpdateManyMutationInput {
+  score: Int
+  description: String
+  sort: Int
+}
+
+input Evaluation2WhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  user: UserWhereInput
+  score: Int
+  score_not: Int
+  score_in: [Int!]
+  score_not_in: [Int!]
+  score_lt: Int
+  score_lte: Int
+  score_gt: Int
+  score_gte: Int
+  description: String
+  description_not: String
+  description_in: [String!]
+  description_not_in: [String!]
+  description_lt: String
+  description_lte: String
+  description_gt: String
+  description_gte: String
+  description_contains: String
+  description_not_contains: String
+  description_starts_with: String
+  description_not_starts_with: String
+  description_ends_with: String
+  description_not_ends_with: String
+  sort: Int
+  sort_not: Int
+  sort_in: [Int!]
+  sort_not_in: [Int!]
+  sort_lt: Int
+  sort_lte: Int
+  sort_gt: Int
+  sort_gte: Int
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [Evaluation2WhereInput!]
+  OR: [Evaluation2WhereInput!]
+  NOT: [Evaluation2WhereInput!]
+}
+
+input Evaluation2WhereUniqueInput {
+  id: ID
 }
 
 type EvaluationConnection {
@@ -691,6 +850,12 @@ type Mutation {
   upsertEvaluation(where: EvaluationWhereUniqueInput!, create: EvaluationCreateInput!, update: EvaluationUpdateInput!): Evaluation!
   deleteEvaluation(where: EvaluationWhereUniqueInput!): Evaluation
   deleteManyEvaluations(where: EvaluationWhereInput): BatchPayload!
+  createEvaluation2(data: Evaluation2CreateInput!): Evaluation2!
+  updateEvaluation2(data: Evaluation2UpdateInput!, where: Evaluation2WhereUniqueInput!): Evaluation2
+  updateManyEvaluation2s(data: Evaluation2UpdateManyMutationInput!, where: Evaluation2WhereInput): BatchPayload!
+  upsertEvaluation2(where: Evaluation2WhereUniqueInput!, create: Evaluation2CreateInput!, update: Evaluation2UpdateInput!): Evaluation2!
+  deleteEvaluation2(where: Evaluation2WhereUniqueInput!): Evaluation2
+  deleteManyEvaluation2s(where: Evaluation2WhereInput): BatchPayload!
   createLoginLog(data: LoginLogCreateInput!): LoginLog!
   updateLoginLog(data: LoginLogUpdateInput!, where: LoginLogWhereUniqueInput!): LoginLog
   updateManyLoginLogs(data: LoginLogUpdateManyMutationInput!, where: LoginLogWhereInput): BatchPayload!
@@ -756,6 +921,9 @@ type Query {
   evaluation(where: EvaluationWhereUniqueInput!): Evaluation
   evaluations(where: EvaluationWhereInput, orderBy: EvaluationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Evaluation]!
   evaluationsConnection(where: EvaluationWhereInput, orderBy: EvaluationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): EvaluationConnection!
+  evaluation2(where: Evaluation2WhereUniqueInput!): Evaluation2
+  evaluation2s(where: Evaluation2WhereInput, orderBy: Evaluation2OrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Evaluation2]!
+  evaluation2sConnection(where: Evaluation2WhereInput, orderBy: Evaluation2OrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): Evaluation2Connection!
   loginLog(where: LoginLogWhereUniqueInput!): LoginLog
   loginLogs(where: LoginLogWhereInput, orderBy: LoginLogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [LoginLog]!
   loginLogsConnection(where: LoginLogWhereInput, orderBy: LoginLogOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LoginLogConnection!
@@ -1161,6 +1329,7 @@ type Subscription {
   acceptRecord(where: AcceptRecordSubscriptionWhereInput): AcceptRecordSubscriptionPayload
   adminUser(where: AdminUserSubscriptionWhereInput): AdminUserSubscriptionPayload
   evaluation(where: EvaluationSubscriptionWhereInput): EvaluationSubscriptionPayload
+  evaluation2(where: Evaluation2SubscriptionWhereInput): Evaluation2SubscriptionPayload
   loginLog(where: LoginLogSubscriptionWhereInput): LoginLogSubscriptionPayload
   mainText(where: MainTextSubscriptionWhereInput): MainTextSubscriptionPayload
   question(where: QuestionSubscriptionWhereInput): QuestionSubscriptionPayload

@@ -25,6 +25,10 @@ var models = [
     embedded: false
   },
   {
+    name: "Evaluation2",
+    embedded: false
+  },
+  {
     name: "Streaming",
     embedded: false
   },

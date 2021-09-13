@@ -19,6 +19,7 @@ export interface Exists {
   acceptRecord: (where?: AcceptRecordWhereInput) => Promise<boolean>;
   adminUser: (where?: AdminUserWhereInput) => Promise<boolean>;
   evaluation: (where?: EvaluationWhereInput) => Promise<boolean>;
+  evaluation2: (where?: Evaluation2WhereInput) => Promise<boolean>;
   loginLog: (where?: LoginLogWhereInput) => Promise<boolean>;
   mainText: (where?: MainTextWhereInput) => Promise<boolean>;
   question: (where?: QuestionWhereInput) => Promise<boolean>;
@@ -105,6 +106,27 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => EvaluationConnectionPromise;
+  evaluation2: (
+    where: Evaluation2WhereUniqueInput
+  ) => Evaluation2NullablePromise;
+  evaluation2s: (args?: {
+    where?: Evaluation2WhereInput;
+    orderBy?: Evaluation2OrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Evaluation2>;
+  evaluation2sConnection: (args?: {
+    where?: Evaluation2WhereInput;
+    orderBy?: Evaluation2OrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => Evaluation2ConnectionPromise;
   loginLog: (where: LoginLogWhereUniqueInput) => LoginLogNullablePromise;
   loginLogs: (args?: {
     where?: LoginLogWhereInput;
@@ -277,6 +299,24 @@ export interface Prisma {
   }) => EvaluationPromise;
   deleteEvaluation: (where: EvaluationWhereUniqueInput) => EvaluationPromise;
   deleteManyEvaluations: (where?: EvaluationWhereInput) => BatchPayloadPromise;
+  createEvaluation2: (data: Evaluation2CreateInput) => Evaluation2Promise;
+  updateEvaluation2: (args: {
+    data: Evaluation2UpdateInput;
+    where: Evaluation2WhereUniqueInput;
+  }) => Evaluation2Promise;
+  updateManyEvaluation2s: (args: {
+    data: Evaluation2UpdateManyMutationInput;
+    where?: Evaluation2WhereInput;
+  }) => BatchPayloadPromise;
+  upsertEvaluation2: (args: {
+    where: Evaluation2WhereUniqueInput;
+    create: Evaluation2CreateInput;
+    update: Evaluation2UpdateInput;
+  }) => Evaluation2Promise;
+  deleteEvaluation2: (where: Evaluation2WhereUniqueInput) => Evaluation2Promise;
+  deleteManyEvaluation2s: (
+    where?: Evaluation2WhereInput
+  ) => BatchPayloadPromise;
   createLoginLog: (data: LoginLogCreateInput) => LoginLogPromise;
   updateLoginLog: (args: {
     data: LoginLogUpdateInput;
@@ -391,6 +431,9 @@ export interface Subscription {
   evaluation: (
     where?: EvaluationSubscriptionWhereInput
   ) => EvaluationSubscriptionPayloadSubscription;
+  evaluation2: (
+    where?: Evaluation2SubscriptionWhereInput
+  ) => Evaluation2SubscriptionPayloadSubscription;
   loginLog: (
     where?: LoginLogSubscriptionWhereInput
   ) => LoginLogSubscriptionPayloadSubscription;
@@ -444,6 +487,20 @@ export type EvaluationOrderByInput =
   | "score_DESC"
   | "description_ASC"
   | "description_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type Evaluation2OrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "score_ASC"
+  | "score_DESC"
+  | "description_ASC"
+  | "description_DESC"
+  | "sort_ASC"
+  | "sort_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -835,6 +892,77 @@ export interface QuestionWhereInput {
   NOT?: Maybe<QuestionWhereInput[] | QuestionWhereInput>;
 }
 
+export type Evaluation2WhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface Evaluation2WhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  user?: Maybe<UserWhereInput>;
+  score?: Maybe<Int>;
+  score_not?: Maybe<Int>;
+  score_in?: Maybe<Int[] | Int>;
+  score_not_in?: Maybe<Int[] | Int>;
+  score_lt?: Maybe<Int>;
+  score_lte?: Maybe<Int>;
+  score_gt?: Maybe<Int>;
+  score_gte?: Maybe<Int>;
+  description?: Maybe<String>;
+  description_not?: Maybe<String>;
+  description_in?: Maybe<String[] | String>;
+  description_not_in?: Maybe<String[] | String>;
+  description_lt?: Maybe<String>;
+  description_lte?: Maybe<String>;
+  description_gt?: Maybe<String>;
+  description_gte?: Maybe<String>;
+  description_contains?: Maybe<String>;
+  description_not_contains?: Maybe<String>;
+  description_starts_with?: Maybe<String>;
+  description_not_starts_with?: Maybe<String>;
+  description_ends_with?: Maybe<String>;
+  description_not_ends_with?: Maybe<String>;
+  sort?: Maybe<Int>;
+  sort_not?: Maybe<Int>;
+  sort_in?: Maybe<Int[] | Int>;
+  sort_not_in?: Maybe<Int[] | Int>;
+  sort_lt?: Maybe<Int>;
+  sort_lte?: Maybe<Int>;
+  sort_gt?: Maybe<Int>;
+  sort_gte?: Maybe<Int>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<Evaluation2WhereInput[] | Evaluation2WhereInput>;
+  OR?: Maybe<Evaluation2WhereInput[] | Evaluation2WhereInput>;
+  NOT?: Maybe<Evaluation2WhereInput[] | Evaluation2WhereInput>;
+}
+
 export type LoginLogWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -1146,6 +1274,27 @@ export interface EvaluationUpdateManyMutationInput {
   description?: Maybe<String>;
 }
 
+export interface Evaluation2CreateInput {
+  id?: Maybe<ID_Input>;
+  user: UserCreateOneInput;
+  score: Int;
+  description: String;
+  sort: Int;
+}
+
+export interface Evaluation2UpdateInput {
+  user?: Maybe<UserUpdateOneRequiredInput>;
+  score?: Maybe<Int>;
+  description?: Maybe<String>;
+  sort?: Maybe<Int>;
+}
+
+export interface Evaluation2UpdateManyMutationInput {
+  score?: Maybe<Int>;
+  description?: Maybe<String>;
+  sort?: Maybe<Int>;
+}
+
 export interface LoginLogCreateInput {
   id?: Maybe<ID_Input>;
   username: String;
@@ -1276,6 +1425,23 @@ export interface EvaluationSubscriptionWhereInput {
   >;
   NOT?: Maybe<
     EvaluationSubscriptionWhereInput[] | EvaluationSubscriptionWhereInput
+  >;
+}
+
+export interface Evaluation2SubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<Evaluation2WhereInput>;
+  AND?: Maybe<
+    Evaluation2SubscriptionWhereInput[] | Evaluation2SubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    Evaluation2SubscriptionWhereInput[] | Evaluation2SubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    Evaluation2SubscriptionWhereInput[] | Evaluation2SubscriptionWhereInput
   >;
 }
 
@@ -1754,6 +1920,105 @@ export interface AggregateEvaluationPromise
 
 export interface AggregateEvaluationSubscription
   extends Promise<AsyncIterator<AggregateEvaluation>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Evaluation2 {
+  id: ID_Output;
+  score: Int;
+  description: String;
+  sort: Int;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface Evaluation2Promise extends Promise<Evaluation2>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  user: <T = UserPromise>() => T;
+  score: () => Promise<Int>;
+  description: () => Promise<String>;
+  sort: () => Promise<Int>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface Evaluation2Subscription
+  extends Promise<AsyncIterator<Evaluation2>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  user: <T = UserSubscription>() => T;
+  score: () => Promise<AsyncIterator<Int>>;
+  description: () => Promise<AsyncIterator<String>>;
+  sort: () => Promise<AsyncIterator<Int>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface Evaluation2NullablePromise
+  extends Promise<Evaluation2 | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  user: <T = UserPromise>() => T;
+  score: () => Promise<Int>;
+  description: () => Promise<String>;
+  sort: () => Promise<Int>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface Evaluation2Connection {
+  pageInfo: PageInfo;
+  edges: Evaluation2Edge[];
+}
+
+export interface Evaluation2ConnectionPromise
+  extends Promise<Evaluation2Connection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<Evaluation2Edge>>() => T;
+  aggregate: <T = AggregateEvaluation2Promise>() => T;
+}
+
+export interface Evaluation2ConnectionSubscription
+  extends Promise<AsyncIterator<Evaluation2Connection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<Evaluation2EdgeSubscription>>>() => T;
+  aggregate: <T = AggregateEvaluation2Subscription>() => T;
+}
+
+export interface Evaluation2Edge {
+  node: Evaluation2;
+  cursor: String;
+}
+
+export interface Evaluation2EdgePromise
+  extends Promise<Evaluation2Edge>,
+    Fragmentable {
+  node: <T = Evaluation2Promise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface Evaluation2EdgeSubscription
+  extends Promise<AsyncIterator<Evaluation2Edge>>,
+    Fragmentable {
+  node: <T = Evaluation2Subscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateEvaluation2 {
+  count: Int;
+}
+
+export interface AggregateEvaluation2Promise
+  extends Promise<AggregateEvaluation2>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateEvaluation2Subscription
+  extends Promise<AsyncIterator<AggregateEvaluation2>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -2378,6 +2643,62 @@ export interface EvaluationPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
+export interface Evaluation2SubscriptionPayload {
+  mutation: MutationType;
+  node: Evaluation2;
+  updatedFields: String[];
+  previousValues: Evaluation2PreviousValues;
+}
+
+export interface Evaluation2SubscriptionPayloadPromise
+  extends Promise<Evaluation2SubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = Evaluation2Promise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = Evaluation2PreviousValuesPromise>() => T;
+}
+
+export interface Evaluation2SubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<Evaluation2SubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = Evaluation2Subscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = Evaluation2PreviousValuesSubscription>() => T;
+}
+
+export interface Evaluation2PreviousValues {
+  id: ID_Output;
+  score: Int;
+  description: String;
+  sort: Int;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface Evaluation2PreviousValuesPromise
+  extends Promise<Evaluation2PreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  score: () => Promise<Int>;
+  description: () => Promise<String>;
+  sort: () => Promise<Int>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface Evaluation2PreviousValuesSubscription
+  extends Promise<AsyncIterator<Evaluation2PreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  score: () => Promise<AsyncIterator<Int>>;
+  description: () => Promise<AsyncIterator<String>>;
+  sort: () => Promise<AsyncIterator<Int>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
 export interface LoginLogSubscriptionPayload {
   mutation: MutationType;
   node: LoginLog;
@@ -2749,6 +3070,10 @@ export const models: Model[] = [
   },
   {
     name: "Evaluation",
+    embedded: false
+  },
+  {
+    name: "Evaluation2",
     embedded: false
   },
   {

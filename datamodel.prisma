@@ -43,6 +43,16 @@ type Evaluation {
   updatedAt: DateTime! @updatedAt
 }
 
+type Evaluation2 {
+  id: ID! @id
+  user: User!
+  score: Int!
+  description: String
+  sort: Int!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
 type Streaming {
   id: ID! @id
   key: String!

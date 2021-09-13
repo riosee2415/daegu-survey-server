@@ -12,7 +12,8 @@ type Query {
   getAllEval: [Evaluation!]!
   getSelectEvaluation(id: String!): [Evaluation!]!
   getAvgData(id: String!): Int!
-  getEvaluationAvg(round: Int!): [EvaluationAvg]!
+  getEvaluationAvg01(round: Int!): [EvaluationAvg]!
+  getEvaluationAvg02(round: Int!): [EvaluationAvg]!
 }
 
 type Mutation {
