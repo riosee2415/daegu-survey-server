@@ -4,11 +4,9 @@ export default {
   Query: {
     getEvaluationAvg03: async (_, args) => {
       try {
-        const evaluationResult = await prisma.evaluation2({
-          where: {},
+        const evaluationResult = await prisma.evaluation2s({
           orderBy: "createdAt_ASC",
         });
-        console.log(evaluationResult);
 
         return evaluationResult;
       } catch (e) {
