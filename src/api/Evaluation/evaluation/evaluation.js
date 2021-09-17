@@ -363,12 +363,16 @@ export default {
     },
 
     deleteEvaluation: async (_, args) => {
-      const { id } = args;
+      const { list } = args;
 
       try {
-        const result = await prisma.deleteEvaluation({
-          id,
-        });
+        await Promise.all(
+          list.map(async (id) => {
+            const result = await prisma.deleteEvaluation({
+              id,
+            });
+          })
+        );
 
         return true;
       } catch (e) {

@@ -6,6 +6,7 @@ type User {
   isExpert: Boolean!
   isManager: Boolean!
   isComplete: Boolean
+  isDelete: Boolean!
   createdAt: String!
   updatedAt: String!
 }

@@ -1,5 +1,7 @@
 type Query {
+  getAllEval2: [Evaluation2!]!
   getEvaluationAvg03: [Evaluation2!]!
+  getSelectEvaluation2(id: String!): [Evaluation2!]!
 }
 
 type Mutation {
@@ -9,4 +11,6 @@ type Mutation {
     description: String!
     sort: Int!
   ): Boolean!
+
+  deleteEvaluation2(list: [String!]!): Boolean!
 }
